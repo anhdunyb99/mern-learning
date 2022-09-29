@@ -1,0 +1,44 @@
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "username" : "anhdungyb99",
+    "password" : "dung1999"
+}
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "username" : "anhdungyb99",
+    "password" : "dung1999"
+}
+
+###
+POST http://localhost:5000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxOWZhOTdkN2RlMWU0ZTkxOWYyZGYiLCJpYXQiOjE2NjMxNjIzMzd9.BCKTDUKfcNuonFVYShwQvPfjm9LU5lSZ5TIc5TZoNKs
+
+{
+    "title" : "abc123",
+    "description" : "test ",
+    "url" : "shoppe.com",
+    "status" : "TO LEARN"
+}
+
+###
+PUT http://localhost:5000/api/posts/63356cdf6bbde80bedce1006
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxOWZhOTdkN2RlMWU0ZTkxOWYyZGYiLCJpYXQiOjE2NjMxNjIzMzd9.BCKTDUKfcNuonFVYShwQvPfjm9LU5lSZ5TIc5TZoNKs
+
+{
+    "title" : "2343434343",
+    "description" : "aaaa ",
+    "url" : "shoppe.com",
+    "status" : "TO LEARN"
+}
+
+###
+DELETE http://localhost:5000/api/posts/63356cdf6bbde80bedce1006
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxOWZhOTdkN2RlMWU0ZTkxOWYyZGYiLCJpYXQiOjE2NjMxNjIzMzd9.BCKTDUKfcNuonFVYShwQvPfjm9LU5lSZ5TIc5TZoNKs
