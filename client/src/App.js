@@ -8,21 +8,18 @@ import "./App.css";
 import React from "react";
 import Landing from "./components/layout/Landing";
 import Auth from "./components/views/Auth";
+import AuthContextProvider from "./components/contexts/AuthContexts";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route
-          path="/login"
-          render={(props) => <Auth {...props} authRoute="login" />}
-        />
-        <Route
-          path="/register"
-          render={(props) => <Auth {...props} authRoute="register" />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Auth authRoute={"login"} />} />
+          <Route path="/register" element={<Auth authRoute={"register"} />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }
 
