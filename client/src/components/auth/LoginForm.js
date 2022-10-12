@@ -1,14 +1,19 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContexts";
+import AlertMessage from "../layout/AlertMessage";
 const LoginForm = () => {
+  // context
+  const { loginUser } = useContext(AuthContext);
+  const [alert, setAlert] = useState(null);
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
   });
+  let navigate = useNavigate();
   const { username, password } = loginForm;
   const onChangeLoginForm = (e) => {
     setLoginForm({
@@ -16,11 +21,30 @@ const LoginForm = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const login = async (e) => {
+    e.preventDefault();
+    try {
+      const loginData = await loginUser(loginForm);
+      if (loginData.success) {
+      } else {
+        console.log("logdindata", loginData);
+        setAlert({
+          type: "danger",
+          message: loginData.message,
+        });
+        setTimeout(() => setAlert(null), 5000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div>
-      <Form>
+    <>
+      <Form className="my-4" onSubmit={login}>
+        <AlertMessage info={alert} />
         <Form.Group className="mb-3">
           <input
+          
             type="text"
             placeholder="Username"
             name="username"
@@ -39,17 +63,18 @@ const LoginForm = () => {
             required
           />
         </Form.Group>
+        <Button variant="success" type="submit">
+          Login
+        </Button>
       </Form>
-      <Button variant="success" type="submit" className="ml-3">
-        Login
-      </Button>
+
       <p>Dont have account yet ?</p>
       <Link to="/register">
-        <Button variant="info" size="sm" className="ml-3">
+        <Button variant="info" size="sm" className="ml-2">
           Register
         </Button>
       </Link>
-    </div>
+    </>
   );
 };
 
