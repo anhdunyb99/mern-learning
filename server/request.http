@@ -18,11 +18,11 @@ Content-Type: application/json
 ###
 POST http://localhost:5000/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxOWZhOTdkN2RlMWU0ZTkxOWYyZGYiLCJpYXQiOjE2NjMxNjIzMzd9.BCKTDUKfcNuonFVYShwQvPfjm9LU5lSZ5TIc5TZoNKs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJjNzZmMDUwNTVlNTAwYjcwZmFlYzUiLCJpYXQiOjE2NjU1OTAxMjV9.f38Z81rgXkX3N9fpxRG-v3XQsblOiDGJO2TI3RzBgPY
 
 {
-    "title" : "abc123",
-    "description" : "test ",
+    "title" : "post4",
+    "description" : "post4",
     "url" : "shoppe.com",
     "status" : "TO LEARN"
 }
@@ -42,3 +42,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxO
 ###
 DELETE http://localhost:5000/api/posts/63356cdf6bbde80bedce1006
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxOWZhOTdkN2RlMWU0ZTkxOWYyZGYiLCJpYXQiOjE2NjMxNjIzMzd9.BCKTDUKfcNuonFVYShwQvPfjm9LU5lSZ5TIc5TZoNKs
+
+###
+GET http://localhost:5000/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJjNzZmMDUwNTVlNTAwYjcwZmFlYzUiLCJpYXQiOjE2NjU1OTAwNzJ9.FQLRFmx2hExYd2Ui0UvYTkZw_zeuQsBUaiYtzuYqXKc

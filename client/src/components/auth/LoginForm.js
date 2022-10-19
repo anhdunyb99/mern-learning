@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
@@ -42,9 +43,9 @@ const LoginForm = () => {
     <>
       <Form className="my-4" onSubmit={login}>
         <AlertMessage info={alert} />
-        <Form.Group className="mb-3">
-          <input
-          
+        <Form.Group>
+          <Form.Control
+            style={{ width: "auto" }}
             type="text"
             placeholder="Username"
             name="username"
@@ -53,8 +54,9 @@ const LoginForm = () => {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3">
-          <input
+        <Form.Group>
+          <Form.Control
+            style={{ width: "auto" }}
             type="password"
             placeholder="Password"
             name="password"

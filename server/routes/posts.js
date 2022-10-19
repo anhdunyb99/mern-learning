@@ -1,82 +1,107 @@
-const express = require('express')
-const router = express.Router()
-const verifyToken = require('../middleware/auth')
-const Post = require('../models/Posts')
+const express = require("express");
+const router = express.Router();
+const verifyToken = require("../middleware/auth");
+const Post = require("../models/Posts");
 
 // route post/api
+
+//get post
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const posts = await Post.find({ user: req.userId }).populate("user", [
+      "username",
+    ]);
+    console.log("req.userId", req.userId);
+    res.json({ success: true, posts });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
 // create post
 
-router.post('/',verifyToken, async (req, res) => {
-    const { title, description, url, status } = req.body
+router.post("/", verifyToken, async (req, res) => {
+  const { title, description, url, status } = req.body;
 
-    //simple vadilation
-    if (!title)
-        return res.status(400).json({ success: false, message: 'Title is missing' })
+  //simple vadilation
+  if (!title)
+    return res
+      .status(400)
+      .json({ success: false, message: "Title is missing" });
 
-    try {
-        const newPost = new Post({ title,
-            description,
-            url: (url.startsWith('https://')) ? url : `https://${url}`, 
-            status: status || 'TO LEARN', 
-            user: '63219fa97d7de1e4e919f2df' })
+  try {
+    const newPost = new Post({
+      title,
+      description,
+      url: url.startsWith("https://") ? url : `https://${url}`,
+      status: status || "TO LEARN",
+      user: req.userId,
+    });
 
-        await newPost.save()
-        res.json({ success: true, message: 'Happy learning',post : newPost })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({success: false, message: 'Internal server error'})
+    await newPost.save();
+    res.json({ success: true, message: "Happy learning", post: newPost });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+// update posts
+router.put("/:id", verifyToken, async (req, res) => {
+  const { title, description, url, status } = req.body;
+
+  if (!title)
+    return res
+      .status(400)
+      .json({ success: false, message: "Title is missing" });
+
+  try {
+    let updatePost = {
+      title,
+      description: description || "",
+      url: (url.startsWith("https://") ? url : `https://${url}`) || "",
+      status: status || "TO LEARN",
+    };
+    const condition = {
+      _id: req.params.id,
+      user: req.userId,
+    };
+
+    updatePost = await Post.findOneAndUpdate(condition, updatePost, {
+      new: true,
+    });
+
+    // user not authorized
+    if (!updatePost) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Post not found" });
     }
-})
-// update posts 
-router.put('/:id',verifyToken,async (req,res) => {
-    const { title, description, url, status } = req.body
-    
-    if (!title)
-        return res.status(400).json({ success: false, message: 'Title is missing' })
-
-    try {
-        let updatePost = {
-            title,
-            description : description || '',
-            url : (url.startsWith('https://') ? url : `https://${url}`) || '',
-            status : status || 'TO LEARN' 
-
-        }
-        const condition = {
-            _id : req.params.id,
-            user : req.userId
-        }
-
-        updatePost = await Post.findOneAndUpdate(condition,updatePost,{new : true})
-        
-        // user not authorized
-        if(!updatePost){
-            return res.status(400).json({ success: false, message: 'Post not found' })
-        }
-        res.json({ success: true, message: 'PUT SUCCES',post : updatePost })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({success: false, message: 'Internal server error'})
-    }
-    
-})
+    res.json({ success: true, message: "PUT SUCCES", post: updatePost });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 
 // delete
-router.delete('/:id',verifyToken, async(req,res) => {
-    try {
-        const postDeleteCondition = {
-            _id : req.params.id,
-            user : req.userId
-        }
-        deletePost = await Post.findOneAndDelete(postDeleteCondition)
-        // user not authorized
-        if(!deletePost){
-            return res.status(401).json({ success: false, message: 'user not authorize' })
-        }
-        res.json({ success: true, message: 'PUT SUCCES',post : deletePost })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({success: false, message: 'Internal server error'})
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const postDeleteCondition = {
+      _id: req.params.id,
+      user: req.userId,
+    };
+    deletePost = await Post.findOneAndDelete(postDeleteCondition);
+    // user not authorized
+    if (!deletePost) {
+      return res
+        .status(401)
+        .json({ success: false, message: "user not authorize" });
     }
-})
-module.exports = router
+    res.json({ success: true, message: "PUT SUCCES", post: deletePost });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+module.exports = router;
