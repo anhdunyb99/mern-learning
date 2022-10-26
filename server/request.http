@@ -40,9 +40,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxO
 }
 
 ###
-DELETE http://localhost:5000/api/posts/63356cdf6bbde80bedce1006
+DELETE http://localhost:5000/api/posts/635836e20b49085691fa48d2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxOWZhOTdkN2RlMWU0ZTkxOWYyZGYiLCJpYXQiOjE2NjMxNjIzMzd9.BCKTDUKfcNuonFVYShwQvPfjm9LU5lSZ5TIc5TZoNKs
 
 ###
 GET http://localhost:5000/api/posts
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJjNzZmMDUwNTVlNTAwYjcwZmFlYzUiLCJpYXQiOjE2NjU1OTAwNzJ9.FQLRFmx2hExYd2Ui0UvYTkZw_zeuQsBUaiYtzuYqXKc
+
+###
+POST http://localhost:5000/api/auth/login-google
+Content-Type: application/json

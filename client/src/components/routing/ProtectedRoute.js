@@ -9,7 +9,7 @@ const ProtectedRoute = ({children }) => {
   const {
     authState: { authLoading, isAuthenticated },
   } = useContext(AuthContext);
-  console.log(authLoading,isAuthenticated);
+  
   if (authLoading)
     return (
       <div className="spinner-container">

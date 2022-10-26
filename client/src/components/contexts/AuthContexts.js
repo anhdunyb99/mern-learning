@@ -5,6 +5,7 @@ import { authReducer } from "../reducers/authReducer";
 import { apiUrl } from "./constants";
 import { LOCAL_STORAGE_LOCAL_NAME } from "./constants";
 import setAuthToken from "../../utils/setAuthToken";
+
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
@@ -19,53 +20,50 @@ const AuthContextProvider = ({ children }) => {
   });
   // authen user
   const loadUser = async () => {
-    
     if (localStorage[LOCAL_STORAGE_LOCAL_NAME]) {
       setAuthToken(localStorage[LOCAL_STORAGE_LOCAL_NAME]);
     }
-
     try {
       const response = await axios.get(`${apiUrl}/auth`);
-      
-			if (response.data.success) {
-				dispatch({
-					type: 'SET_AUTH',
-					payload: { isAuthenticated: true, user: response.data.user }
-				})
-			}
+      if (response.data.success) {
+        dispatch({
+          type: "SET_AUTH",
+          payload: { isAuthenticated: true, user: response.data.user },
+        });
+      }
     } catch (error) {
-      
       localStorage.removeItem(LOCAL_STORAGE_LOCAL_NAME);
-      setAuthToken(null)
-			dispatch({
-				type: 'SET_AUTH',
-				payload: { isAuthenticated: false, user: null }
-			})
+      setAuthToken(null);
+      dispatch({
+        type: "SET_AUTH",
+        payload: { isAuthenticated: false, user: null },
+      });
     }
   };
+
 
   //useEffect(() => loadUser(), []);
   useEffect(() => {
     loadUser();
-},[]);
+  }, []);
   //register user
-  const registerUser = async userForm => {
-		try {
-			const response = await axios.post(`${apiUrl}/auth/register`, userForm)
-			if (response.data.success)
-				localStorage.setItem(
-					LOCAL_STORAGE_LOCAL_NAME,
-					response.data.accessToken
-				)
+  const registerUser = async (userForm) => {
+    try {
+      const response = await axios.post(`${apiUrl}/auth/register`, userForm);
+      if (response.data.success)
+        localStorage.setItem(
+          LOCAL_STORAGE_LOCAL_NAME,
+          response.data.accessToken
+        );
 
-			await loadUser()
+      await loadUser();
 
-			return response.data
-		} catch (error) {
-			if (error.response.data) return error.response.data
-			else return { success: false, message: error.message }
-		}
-	}
+      return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else return { success: false, message: error.message };
+    }
+  };
   // login
   const loginUser = async (userForm) => {
     try {
@@ -76,7 +74,33 @@ const AuthContextProvider = ({ children }) => {
           LOCAL_STORAGE_LOCAL_NAME,
           response.data.accessToken
         );
-        await loadUser();
+      await loadUser();
+      return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else
+        return {
+          success: false,
+          message: error.message,
+        };
+    }
+  };
+  //login with google
+  const loginWithGoogle = async (userForm) => {
+    try {
+      const response = await axios.post(`${apiUrl}/auth/login-google`,userForm);
+      console.log("response", response);
+      if (response.data.success){
+        localStorage.setItem(
+          LOCAL_STORAGE_LOCAL_NAME,
+          response.data.accessToken
+        );
+        dispatch({
+          type: "SET_AUTH",
+          payload: { isAuthenticated: true, user: "guest" },
+        });
+      }
+      await loadUser();
       return response.data;
     } catch (error) {
       if (error.response.data) return error.response.data;
@@ -89,14 +113,20 @@ const AuthContextProvider = ({ children }) => {
   };
   //logout
   const logoutUser = () => {
-		localStorage.removeItem(LOCAL_STORAGE_LOCAL_NAME)
-		dispatch({
-			type: 'SET_AUTH',
-			payload: { isAuthenticated: false, user: null }
-		})
-	}
-  const authContextData = { loginUser, authState , registerUser , logoutUser};
-  
+    localStorage.removeItem(LOCAL_STORAGE_LOCAL_NAME);
+    dispatch({
+      type: "SET_AUTH",
+      payload: { isAuthenticated: false, user: null },
+    });
+  };
+  const authContextData = {
+    loginUser,
+    authState,
+    registerUser,
+    logoutUser,
+    loginWithGoogle,
+  };
+
   // return provider
   return (
     <AuthContext.Provider value={authContextData}>

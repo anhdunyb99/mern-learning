@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
-const verifyToken = require('../middleware/auth')
+const verifyToken = require("../middleware/auth");
 const User = require("../models/User");
 
-
-router.get("/", verifyToken , async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
+
     if (!user)
       return res.status(400).json({
         success: false,
@@ -70,6 +70,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
+  //console.log("req.body", req.body);
   if (!username || !password)
     return res
       .status(400)
@@ -95,6 +96,38 @@ router.post("/login", async (req, res) => {
       { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET
     );
+
+    res.json({ success: true, message: "Loggin succesfully", accessToken });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+// login google
+
+router.post("/login-google", async (req, res) => {
+  const username = req.body.email;
+  const password = "1";
+
+  try {
+    let accessToken = {};
+    const user = await User.findOne({ username });
+    if (!user) {
+      const hashedPassword = await argon2.hash(password);
+      const newUser = new User({ username, password: hashedPassword });
+      await newUser.save();
+      const userToken = await User.findOne({ username });
+      accessToken = jwt.sign(
+        { userId: userToken._id },
+        process.env.ACCESS_TOKEN_SECRET
+      );
+    } else {
+      accessToken = jwt.sign(
+        { userId: user._id },
+        process.env.ACCESS_TOKEN_SECRET
+      );
+    }
     res.json({ success: true, message: "Loggin succesfully", accessToken });
   } catch (error) {
     console.log(error);

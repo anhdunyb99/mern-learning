@@ -11,7 +11,6 @@ router.get("/", verifyToken, async (req, res) => {
     const posts = await Post.find({ user: req.userId }).populate("user", [
       "username",
     ]);
-    console.log("req.userId", req.userId);
     res.json({ success: true, posts });
   } catch (error) {
     console.log(error);
@@ -87,21 +86,22 @@ router.put("/:id", verifyToken, async (req, res) => {
 // delete
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
-    const postDeleteCondition = {
-      _id: req.params.id,
-      user: req.userId,
-    };
-    deletePost = await Post.findOneAndDelete(postDeleteCondition);
-    // user not authorized
-    if (!deletePost) {
-      return res
-        .status(401)
-        .json({ success: false, message: "user not authorize" });
-    }
-    res.json({ success: true, message: "PUT SUCCES", post: deletePost });
+    const postDeleteCondition = { _id: req.params.id, user: req.userId };
+    const deletedPost = await Post.findOneAndDelete(postDeleteCondition);
+    console.log("postDeleteCondition", postDeleteCondition);
+    console.log("deletedPost", deletedPost);
+    // User not authorised or post not found
+    if (!deletedPost)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorised",
+      });
+
+    res.json({ success: true, post: deletedPost });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 module.exports = router;
