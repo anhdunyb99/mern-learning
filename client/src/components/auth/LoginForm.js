@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login";
 import { gapi } from "gapi-script";
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,9 +11,11 @@ import AlertMessage from "../layout/AlertMessage";
 import { useEffect } from "react";
 const clientId =
   "69298724862-griorc4anl39v3ds6i22epk5st2jujpp.apps.googleusercontent.com";
+const FaceBookId = "3547471218814811";
 const LoginForm = () => {
   // context
-  const { loginUser, loginWithGoogle } = useContext(AuthContext);
+  const { loginUser, loginWithGoogle, loginWithFaceBook } =
+    useContext(AuthContext);
   const [alert, setAlert] = useState(null);
   const [loginForm, setLoginForm] = useState({
     username: "",
@@ -34,7 +37,6 @@ const LoginForm = () => {
       const loginData = await loginUser(loginForm);
       if (loginData.success) {
       } else {
-        
         setAlert({
           type: "danger",
           message: loginData.message,
@@ -53,13 +55,21 @@ const LoginForm = () => {
       });
     };
     gapi.load("client:auth2", initClient);
-    
   });
   const onSuccess = (res) => {
     loginWithGoogle(res.profileObj);
   };
   const onFailure = (err) => {
     console.log("onFailure");
+  };
+
+  const responseFacebook = (response) => {
+    console.log("response", response);
+    loginWithFaceBook(response);
+  };
+
+  const componentClicked = () => {
+    console.log("componentClicked");
   };
   return (
     <div>
@@ -87,24 +97,38 @@ const LoginForm = () => {
             required
           />
         </Form.Group>
-        <Button variant="success" type="submit" style={{marginLeft : "60px"}} >
+        <Button variant="success" type="submit" style={{ marginLeft: "60px" }}>
           Login
         </Button>
       </Form>
-      <GoogleLogin
-        clientId={clientId}
-        buttonText="Sign in with Google"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={"single_host_origin"}
-        isSignedIn={false}
-      />
+      <Form.Group>
+        <GoogleLogin
+          clientId={clientId}
+          buttonText="Sign in with Google"
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy={"single_host_origin"}
+          isSignedIn={false}
+        />
+      </Form.Group>
+      <Form.Group>
+        <FacebookLogin
+          appId={FaceBookId}
+          autoLoad={false}
+          size="small"
+          fields="name,email,picture"
+          onClick={componentClicked}
+          callback={responseFacebook}
+        />
+      </Form.Group>
       <p>Dont have account yet ?</p>
-      <Link to="/register">
-        <Button variant="info" size="sm" className="ml-2">
-          Register
-        </Button>
-      </Link>
+      <Form.Group>
+        <Link to="/register">
+          <Button variant="info" size="sm" className="ml-2">
+            Register
+          </Button>
+        </Link>
+      </Form.Group>
     </div>
   );
 };

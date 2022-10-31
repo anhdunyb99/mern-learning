@@ -11,7 +11,7 @@ import Auth from "./components/views/Auth";
 import AuthContextProvider from "./components/contexts/AuthContexts";
 import Dashboard from "./components/views/Dashboard";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
-import About from "./components/views/About";
+import Profile from "./components/views/Profile";
 import PostContextsProvider from "./components/contexts/PostContexts";
 function App() {
   return (
@@ -29,10 +29,10 @@ function App() {
               }
             />
             <Route
-              path="/about"
+              path="/profile"
               element={
                 <ProtectedRoute>
-                  <About />
+                  <Profile />
                 </ProtectedRoute>
               }
             />

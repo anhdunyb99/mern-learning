@@ -19,7 +19,7 @@ const Dashboard = () => {
   let body = null;
   const {
     authState: {
-      user: { username },
+      user: { fullName },
     },
   } = useContext(AuthContext);
 
@@ -42,7 +42,7 @@ const Dashboard = () => {
     body = (
       <div>
         <Card className="text-center mx-5 my-5">
-          <Card.Header as="h1">Hi {username}</Card.Header>
+          <Card.Header as="h1">Hi {fullName}</Card.Header>
           <Card.Body>
             <Card.Title>Welcome to LearnIt</Card.Title>
             <Card.Text>

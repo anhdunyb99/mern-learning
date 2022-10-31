@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
 import { authReducer } from "../reducers/authReducer";
@@ -19,6 +19,7 @@ const AuthContextProvider = ({ children }) => {
     // login functiondi
   });
   // authen user
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
   const loadUser = async () => {
     if (localStorage[LOCAL_STORAGE_LOCAL_NAME]) {
       setAuthToken(localStorage[LOCAL_STORAGE_LOCAL_NAME]);
@@ -40,7 +41,6 @@ const AuthContextProvider = ({ children }) => {
       });
     }
   };
-
 
   //useEffect(() => loadUser(), []);
   useEffect(() => {
@@ -88,17 +88,41 @@ const AuthContextProvider = ({ children }) => {
   //login with google
   const loginWithGoogle = async (userForm) => {
     try {
-      const response = await axios.post(`${apiUrl}/auth/login-google`,userForm);
+      const response = await axios.post(
+        `${apiUrl}/auth/login-google`,
+        userForm
+      );
       console.log("response", response);
-      if (response.data.success){
+      if (response.data.success) {
         localStorage.setItem(
           LOCAL_STORAGE_LOCAL_NAME,
           response.data.accessToken
         );
-        dispatch({
-          type: "SET_AUTH",
-          payload: { isAuthenticated: true, user: "guest" },
-        });
+      }
+      await loadUser();
+      return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else
+        return {
+          success: false,
+          message: error.message,
+        };
+    }
+  };
+  //login with facebook
+  const loginWithFaceBook = async (userForm) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/auth/login-facebook`,
+        userForm
+      );
+      console.log("loginWithFaceBook", response);
+      if (response.data.success) {
+        localStorage.setItem(
+          LOCAL_STORAGE_LOCAL_NAME,
+          response.data.accessToken
+        );
       }
       await loadUser();
       return response.data;
@@ -119,12 +143,32 @@ const AuthContextProvider = ({ children }) => {
       payload: { isAuthenticated: false, user: null },
     });
   };
+  //updateUserProfile
+  const updateProfile = async (updatedUser) => {
+    try {
+      const response = await axios.put(
+        `${apiUrl}/auth/${updatedUser._id}`,
+        updatedUser
+      );
+      console.log("response", response.data.profile);
+      if (response.data.success) {
+        dispatch({
+          type: "UPDATE_PROFILE",
+          payload: { user: response.data.profile },
+        });
+      }
+    } catch (error) {}
+  };
   const authContextData = {
     loginUser,
     authState,
     registerUser,
     logoutUser,
     loginWithGoogle,
+    loginWithFaceBook,
+    showUpdateProfile,
+    setShowUpdateProfile,
+    updateProfile,
   };
 
   // return provider

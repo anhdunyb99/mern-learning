@@ -109,13 +109,20 @@ router.post("/login", async (req, res) => {
 router.post("/login-google", async (req, res) => {
   const username = req.body.email;
   const password = "1";
+  const email = req.body.email;
+  const fullName = req.body.name;
 
   try {
     let accessToken = {};
     const user = await User.findOne({ username });
     if (!user) {
       const hashedPassword = await argon2.hash(password);
-      const newUser = new User({ username, password: hashedPassword });
+      const newUser = new User({
+        username,
+        password: hashedPassword,
+        email,
+        fullName,
+      });
       await newUser.save();
       const userToken = await User.findOne({ username });
       accessToken = jwt.sign(
@@ -135,4 +142,68 @@ router.post("/login-google", async (req, res) => {
   }
 });
 
+//facebook login
+router.post("/login-facebook", async (req, res) => {
+  const username = req.body.email;
+  const password = "1";
+  const email = req.body.email;
+  const fullName = req.body.name;
+  try {
+    const user = await User.findOne({ username });
+    let accessToken = {};
+    if (!user) {
+      const hashedPassword = await argon2.hash(password);
+      const newUser = new User({
+        username,
+        password: hashedPassword,
+        email,
+        fullName,
+      });
+      await newUser.save();
+      const userToken = await User.findOne({ username });
+      accessToken = jwt.sign(
+        { userId: userToken._id },
+        process.env.ACCESS_TOKEN_SECRET
+      );
+    } else {
+      accessToken = jwt.sign(
+        { userId: user._id },
+        process.env.ACCESS_TOKEN_SECRET
+      );
+      console.log("accessToken", accessToken);
+    }
+    res.json({ success: true, message: "Loggin succesfully", accessToken });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+//update profile
+router.put("/:id", verifyToken, async (req, res) => {
+  console.log("req", req.body);
+  const { username, email, fullName } = req.body;
+  
+  try {
+      let newProfile = {
+        username,
+        email,
+        fullName,
+      };
+
+    const condition = {
+      _id : req.body._id
+    }
+    newProfile = await User.findOneAndUpdate(condition, newProfile, {
+      new: true,
+    });
+    res.json({
+      success: true,
+      message: "Update profile success",
+      profile: newProfile,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 module.exports = router;
