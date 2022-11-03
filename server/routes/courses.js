@@ -1,0 +1,99 @@
+const express = require("express");
+const router = express.Router();
+const verifyToken = require("../middleware/auth");
+const Course = require("../models/Courses");
+
+// get all course
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const course = await Course.find();
+    res.json({ success: true, course });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+// create course
+router.post("/", verifyToken, async (req, res) => {
+  const { name, description, files } = req.body;
+
+  //simple vadilation
+  if (!name)
+    return res.status(400).json({ success: false, message: "Name is missing" });
+  try {
+    const newCourse = new Course({
+      name,
+      description,
+      files,
+    });
+    await newCourse.save();
+    res.json({
+      success: true,
+      message: "Create course successfully",
+      course: newCourse,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+//delete course
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const courseDeleteCondition = { _id: req.params.id };
+    const deletedCourse = await Course.findOneAndDelete(courseDeleteCondition);
+    console.log("courseDeleteCondition", courseDeleteCondition);
+    console.log("deletedCourse", deletedCourse);
+    // User not authorised or post not found
+    if (!deletedCourse)
+      return res.status(401).json({
+        success: false,
+        message: "Course not found or user not authorised",
+      });
+
+    res.json({ success: true, course: deletedCourse });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+// update course
+router.put("/:id", verifyToken, async (req, res) => {
+  const { name, description, files } = req.body;
+
+  if (!name)
+    return res
+      .status(400)
+      .json({ success: false, message: "Course is missing" });
+
+  try {
+    let updateCourse = {
+      name,
+      description,
+      files,
+    };
+    const condition = {
+      _id: req.params.id,
+    };
+
+    updateCourse = await Course.findOneAndUpdate(condition, updateCourse, {
+      new: true,
+    });
+
+    // user not authorized
+    if (!updateCourse) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Course not found" });
+    }
+    res.json({ success: true, message: "PUT SUCCES", course: updateCourse });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+module.exports = router;

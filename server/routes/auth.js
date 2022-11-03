@@ -96,7 +96,7 @@ router.post("/login", async (req, res) => {
       { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET
     );
-
+      console.log('accessToken',accessToken);
     res.json({ success: true, message: "Loggin succesfully", accessToken });
   } catch (error) {
     console.log(error);

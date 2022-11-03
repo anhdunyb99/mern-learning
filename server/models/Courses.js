@@ -2,7 +2,28 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const CourseSchema = new Schema({
-  
+  name: {
+    type: String,
+    require: true,
+  },
+  description: {
+    type: String,
+    require: true,
+  },
+  files: [
+    {
+        // Các file đi kèm comments
+        name: {
+            type: String,
+        },
+        contenType: {
+            type: String,
+        },
+        url : {
+          type: String,
+        }
+    },
+],
   createdAt: {
     type: Date,
     default: Date.now,

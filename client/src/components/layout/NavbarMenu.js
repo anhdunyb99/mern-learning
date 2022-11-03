@@ -47,6 +47,13 @@ const NavbarMenu = () => {
 					>
 						Profile
 					</Nav.Link>
+					<Nav.Link
+						className='font-weight-bolder text-white'
+						to='/courses'
+						as={Link}
+					>
+						Courses
+					</Nav.Link>
 				</Nav>
 
 				<Nav>

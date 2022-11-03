@@ -9,7 +9,7 @@ export const PostContexts = createContext();
 const PostContextsProvider = ({ children }) => {
   //state
   const [postState, dispatch] = useReducer(postReducer, {
-    post : null ,
+    post: null,
     posts: [],
     postsLoading: true,
   });
@@ -52,7 +52,7 @@ const PostContextsProvider = ({ children }) => {
 
   const deletePost = async (postId) => {
     try {
-      const response = await axios.delete(`${apiUrl}/posts/${postId}`)
+      const response = await axios.delete(`${apiUrl}/posts/${postId}`);
       if (response.data.success) {
         dispatch({
           type: "DELETE_POST",
@@ -63,30 +63,51 @@ const PostContextsProvider = ({ children }) => {
       console.log(error);
     }
   };
-  // find post 
+  // find post
 
   const findPost = async (postId) => {
-    const post = postState.posts.find(post => post._id === postId)
+    const post = postState.posts.find((post) => post._id === postId);
     dispatch({
-          type: "FIND_POST",
-          payload: post,
-        });
-  }
+      type: "FIND_POST",
+      payload: post,
+    });
+  };
 
   const updatePost = async (updatedPost) => {
     try {
-      const response = await axios.put(`${apiUrl}/posts/${updatedPost._id}`,updatedPost)
+      const response = await axios.put(
+        `${apiUrl}/posts/${updatedPost._id}`,
+        updatedPost
+      );
       if (response.data.success) {
         dispatch({
           type: "UPDATE_POST",
           payload: response.data.post,
         });
       }
+    } catch (error) {}
+  };
+  const uploadFile = async (fileUpload) => {
+    try {
+      const response = await axios.post(
+        `${apiUrl}/posts/uploadFile`,
+        fileUpload,
+        {
+          headers: {
+            "Content-Type": "Multipart/formData",
+          },
+        }
+      );
+    } catch (error) {}
+  };
+
+  /* const getFile = async () => {
+    try {
+    const response =  await axios.get(`${apiUrl}/posts/getFile`)
     } catch (error) {
       
     }
-  }
-
+  } */
   const postContextData = {
     postState,
     getPosts,
@@ -97,7 +118,8 @@ const PostContextsProvider = ({ children }) => {
     updatePost,
     findPost,
     showUpdateModal,
-    setShowUpdateModal
+    setShowUpdateModal,
+    uploadFile,
   };
   return (
     <PostContexts.Provider value={postContextData}>

@@ -13,6 +13,7 @@ import Dashboard from "./components/views/Dashboard";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import Profile from "./components/views/Profile";
 import PostContextsProvider from "./components/contexts/PostContexts";
+import Courses from "./components/views/Courses";
 function App() {
   return (
     <AuthContextProvider>
@@ -33,6 +34,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/courses"
+              element={
+                <ProtectedRoute>
+                  <Courses/>
                 </ProtectedRoute>
               }
             />

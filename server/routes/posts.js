@@ -2,6 +2,63 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/auth");
 const Post = require("../models/Posts");
+const multer = require("multer");
+const path = require("path");
+let fs = require("fs");
+const Course = require("../models/Courses");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "test-" + file.originalname);
+  },
+});
+const upload = multer({ storage: storage }).single("myfile");
+
+//uploadFile
+router.post("/uploadFile", async (req, res, next) => {
+  console.log("uploadFile");
+  let CourseId = "6362a1e826da7889a576451d";
+  upload(req, res, async (err) => {
+    if (err) {
+      res.send(err);
+      //console.log("err", err);
+    } else {
+      let filePath = "http://localhost:5000/" + `${req.file.path}`;
+      let updatedFile = {
+        name: req.file.originalname,
+        contenType: req.file.mimetype,
+        url: filePath,
+      };
+      await Course.updateOne(
+        { _id: CourseId },
+        {
+          $push: {
+            files: updatedFile,
+          },
+        }
+      );
+      res.send("Upload success!");
+    }
+  });
+});
+
+//get all file of a course
+router.get("/getFile", async (req, res) => {
+  console.log("getFile");
+  try {
+    const course = await Course.findOne({ _id: "6362a1e826da7889a576451d" });
+    let file = [];
+    for (let i in course.files) {
+      file.push(course.files[i]);
+    }
+    res.json({ success: true, file });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 
 // route post/api
 
