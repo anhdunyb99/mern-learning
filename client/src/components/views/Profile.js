@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContexts";
 import NavBarMenu from "../layout/NavbarMenu";
-import "./Profile.css";
 import UpdateUserDetailModal from "../user/UpdateUserDetailModal";
 import addIcon from "../../assets/plus-circle-fill.svg";
 import Button from "react-bootstrap/esm/Button";
@@ -120,9 +119,7 @@ const Profile = () => {
                 />
               </div>
             </div>
-            <Button className="btn-floating">
-              <img src={addIcon} alt="add-post" width="60" height="60" />
-            </Button>
+            
           </div>
         </div>
         <UpdateUserDetailModal />

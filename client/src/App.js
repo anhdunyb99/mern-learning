@@ -14,41 +14,47 @@ import ProtectedRoute from "./components/routing/ProtectedRoute";
 import Profile from "./components/views/Profile";
 import PostContextsProvider from "./components/contexts/PostContexts";
 import Courses from "./components/views/Courses";
+import CourseContextsProvider from "./components/contexts/CourseContexts";
 function App() {
   return (
     <AuthContextProvider>
       <PostContextsProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/courses"
-              element={
-                <ProtectedRoute>
-                  <Courses/>
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/login" element={<Auth authRoute={"login"} />} />
-            <Route path="/register" element={<Auth authRoute={"register"} />} />
-          </Routes>
-        </BrowserRouter>
+        <CourseContextsProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/courses"
+                element={
+                  <ProtectedRoute>
+                    <Courses />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/login" element={<Auth authRoute={"login"} />} />
+              <Route
+                path="/register"
+                element={<Auth authRoute={"register"} />}
+              />
+            </Routes>
+          </BrowserRouter>
+        </CourseContextsProvider>
       </PostContextsProvider>
     </AuthContextProvider>
   );

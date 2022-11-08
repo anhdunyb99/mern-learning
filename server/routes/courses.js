@@ -16,9 +16,11 @@ router.get("/", verifyToken, async (req, res) => {
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  const { name, description, files } = req.body;
-
+  const { name, description, files ,thumbnails ,listStudent ,user} = req.body;
+  console.log('req.body',req.body)
+  let thumbnail = "http://localhost:5000/uploads/" + thumbnails.replace('C:\\fakepath\\','')
   //simple vadilation
+  console.log('thumbnail',thumbnail);
   if (!name)
     return res.status(400).json({ success: false, message: "Name is missing" });
   try {
@@ -26,6 +28,9 @@ router.post("/", verifyToken, async (req, res) => {
       name,
       description,
       files,
+      thumbnail,
+      listStudent,
+      user
     });
     await newCourse.save();
     res.json({

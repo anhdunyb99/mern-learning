@@ -12,18 +12,36 @@ const CourseSchema = new Schema({
   },
   files: [
     {
-        // Các file đi kèm comments
-        name: {
-            type: String,
-        },
-        contenType: {
-            type: String,
-        },
-        url : {
-          type: String,
-        }
+      // Các file đi kèm comments
+      name: {
+        type: String,
+      },
+      contenType: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
     },
-],
+  ],
+  thumbnail: {
+    type: String,
+    require: true,
+  },
+  listStudent: [
+    {
+      // Các file đi kèm comments
+      student: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+      },
+    },
+  ],
+  user: {
+    //người tạo
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
   createdAt: {
     type: Date,
     default: Date.now,

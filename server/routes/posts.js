@@ -11,34 +11,37 @@ const storage = multer.diskStorage({
     cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, "test-" + file.originalname);
+    cb(null,file.originalname);
   },
 });
 const upload = multer({ storage: storage }).single("myfile");
 
 //uploadFile
 router.post("/uploadFile", async (req, res, next) => {
-  console.log("uploadFile");
-  let CourseId = "6362a1e826da7889a576451d";
+  let CourseId = "";
   upload(req, res, async (err) => {
     if (err) {
       res.send(err);
       //console.log("err", err);
     } else {
       let filePath = "http://localhost:5000/" + `${req.file.path}`;
+      console.log('filePath',filePath);
+      console.log("req.file", req.file);
       let updatedFile = {
         name: req.file.originalname,
         contenType: req.file.mimetype,
         url: filePath,
       };
-      await Course.updateOne(
-        { _id: CourseId },
-        {
-          $push: {
-            files: updatedFile,
-          },
-        }
-      );
+      if (CourseId) {
+        await Course.updateOne(
+          { _id: CourseId },
+          {
+            $push: {
+              files: updatedFile,
+            },
+          }
+        );
+      }
       res.send("Upload success!");
     }
   });

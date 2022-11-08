@@ -28,6 +28,7 @@ const Dashboard = () => {
     getPosts,
     setShowAddModal,
   } = useContext(PostContexts);
+  console.log('post',post);
   //get post
   useEffect(() => {
     getPosts();
