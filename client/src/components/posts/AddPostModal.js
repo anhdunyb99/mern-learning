@@ -27,7 +27,7 @@ const AddPostModal = () => {
     const { success, message } = await addPost(newPost);
     setNewPost({ title: "", description: "", url: "", status: "TO LEARN" });
     setShowAddModal(false);
-    console.log('success, message',success, message);
+    
   };
   return (
     <Modal show={showAddModal} animation={false} onHide={closeDialog}>

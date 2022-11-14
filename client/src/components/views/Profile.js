@@ -4,6 +4,7 @@ import NavBarMenu from "../layout/NavbarMenu";
 import UpdateUserDetailModal from "../user/UpdateUserDetailModal";
 import addIcon from "../../assets/plus-circle-fill.svg";
 import Button from "react-bootstrap/esm/Button";
+import Menu from "../layout/Menu";
 const Profile = () => {
   const {
     authState: {
@@ -16,7 +17,7 @@ const Profile = () => {
   }
   return (
     <div>
-      <NavBarMenu />
+      <Menu/>
       <div className="container rounded bg-white mt-5 mb-5">
         <div className="row">
           <div className="col-md-3 border-right">

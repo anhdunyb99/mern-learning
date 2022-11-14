@@ -15,6 +15,8 @@ import Profile from "./components/views/Profile";
 import PostContextsProvider from "./components/contexts/PostContexts";
 import Courses from "./components/views/Courses";
 import CourseContextsProvider from "./components/contexts/CourseContexts";
+import Home from "./components/home/Home";
+import CourseDetail from "./components/courses/CourseDetail";
 function App() {
   return (
     <AuthContextProvider>
@@ -44,6 +46,22 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Courses />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/courses-detail"
+                element={
+                  <ProtectedRoute>
+                    <CourseDetail />
                   </ProtectedRoute>
                 }
               />

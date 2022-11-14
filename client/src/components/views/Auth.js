@@ -12,14 +12,12 @@ function Auth({ authRoute }) {
   } = useContext(AuthContext);
   let body;
   if (authLoading) {
-    
     body = (
       <div className="d-flex justify-content-center mt-2">
         <Spinner animation="border" variant="info" />
       </div>
     );
   } else if (isAuthenticated) {
-    
     return <Navigate replace to="/dashboard" />;
   } else {
     body = (
@@ -30,17 +28,7 @@ function Auth({ authRoute }) {
     );
   }
 
-  return (
-    <div className="landing">
-      <div className="dark-overlay">
-        <div className="landing-inner">
-          <h1>Learnit</h1>
-          <h4>keep track what you are learning</h4>
-          {body}
-        </div>
-      </div>
-    </div>
-  );
+  return <div>{body}</div>;
 }
 
 export default Auth;

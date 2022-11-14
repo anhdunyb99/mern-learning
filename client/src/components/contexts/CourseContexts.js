@@ -50,13 +50,23 @@ const CourseContextsProvider = ({ children }) => {
         : { success: false, message: "Server error" };
     }
   }
+  // find course 
+  const findCourse = async (courseId) => {
+    const course = courseState.courses.find((course) => course._id === courseId);
+    console.log('course',course);
+    dispatch({
+      type : "FIND_COURSE",
+      payload : course,
+    })
+  }
 
 const courseContextData = {
   courseState,
   showAddCourse,
   setShowAddCourse,
   getAllCourse,
-  addCourse
+  addCourse,
+  findCourse
 };
 return (
   <CourseContexts.Provider value={courseContextData}>

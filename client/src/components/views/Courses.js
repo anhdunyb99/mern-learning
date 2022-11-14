@@ -10,7 +10,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/esm/Button";
 import AddCourseModal from "../courses/AddCourseModal";
-import addIcon from "../../assets/plus-circle-fill.svg"
+import addIcon from "../../assets/plus-circle-fill.svg";
+import Menu from "../layout/Menu";
+import CourseDetail from "../courses/CourseDetail";
 const Courses = () => {
   const {
     showAddCourse,
@@ -21,36 +23,33 @@ const Courses = () => {
   useEffect(() => {
     getAllCourse();
   }, []);
-  console.log("courses", courses);
+  
   let body = null;
   body = (
     <div>
-      <UploadFile/>
-      <h1 className="display-4" style={{ textAlign: "center" }}>
-        Học lập trình để đi làm
-      </h1>
-      <Row style={{ marginTop: "25px" }}>
-        {courses.map((course) => (
-          <Col
-            style={{ marginLeft: "25px", marginRight: "25px" }}
-            key={course._id}
-          >
-            <SingleCourse course={course} />
-          </Col>
-        ))}
-      </Row>
-      <Button
-        className="btn-floating"
-        onClick={setShowAddCourse.bind(this, true)}
-      >
-        <img src={addIcon} alt="add-post" width="60" height="60" />
-      </Button>
+      <section className="wrapper">
+        <div>
+          <div className="row-cols-4 row-cols-md-12 g-4 mx-auto mt-3 row">
+            {courses.map((course) => (
+              <Col key={course._id}>
+                <SingleCourse course={course} /> 
+              </Col>
+            ))}
+          </div>
+        </div>
+        <button
+          style={{ float: "right" }}
+          onClick={setShowAddCourse.bind(this, true)}
+        >
+        <i className="bi bi-plus-lg"></i>
+        </button>
+      </section>
     </div>
   );
   return (
     <div>
-      <NavbarMenu />
       <AddCourseModal />
+      <Menu />
       {body}
     </div>
   );

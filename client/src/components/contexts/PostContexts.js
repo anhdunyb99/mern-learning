@@ -67,6 +67,7 @@ const PostContextsProvider = ({ children }) => {
 
   const findPost = async (postId) => {
     const post = postState.posts.find((post) => post._id === postId);
+    console.log('post',post);
     dispatch({
       type: "FIND_POST",
       payload: post,

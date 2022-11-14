@@ -14,6 +14,7 @@ import addIcon from "../../assets/plus-circle-fill.svg";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import UpdatePostModal from "../posts/UpdatePostModal";
+import Menu from "../layout/Menu";
 const Dashboard = () => {
   // Contexts
   let body = null;
@@ -28,7 +29,7 @@ const Dashboard = () => {
     getPosts,
     setShowAddModal,
   } = useContext(PostContexts);
-  console.log('post',post);
+  
   //get post
   useEffect(() => {
     getPosts();
@@ -91,7 +92,7 @@ const Dashboard = () => {
   }
   return (
     <div>
-      <NavbarMenu></NavbarMenu>
+      <Menu/>
       {body}
       <AddPostModal></AddPostModal>
       {post !== null && <UpdatePostModal />}

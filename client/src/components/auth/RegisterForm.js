@@ -41,9 +41,7 @@ const RegisterForm = () => {
       console.log(error);
     }
   };
-  return (
-    <>
-      <Form className="my-4" onSubmit={register}>
+  /* <Form className="my-4" onSubmit={register}>
         <AlertMessage info={alert} />
         <Form.Group className="mb-3">
           <Form.Control
@@ -88,8 +86,58 @@ const RegisterForm = () => {
         <Button variant="info" size="sm" className="ml-3">
           Login
         </Button>
-      </Link>
-    </>
+      </Link> */
+  return (
+    <div>
+      <div className="container">
+        <div className="login-left">
+          <div className="login-header">
+            <h1>Register</h1>
+            <h4>Please register your account</h4>
+            <form className="login-form" onSubmit={register}>
+              <div className="login-form-content">
+                <div className="form-item">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    id="username"
+                    type="text"
+                    name="username"
+                    value={username}
+                    onChange={onChangeRegisterForm}
+                    required
+                  ></input>
+                </div>
+                <div className="form-item">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={onChangeRegisterForm}
+                    required
+                  ></input>
+                </div>
+                <div className="form-item">
+                  <label htmlFor="confirmPassword">ConfirmPassword</label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={onChangeRegisterForm}
+                    required
+                  ></input>
+                </div>
+                <button style={{ border: "1px solid black" }} type="submit">
+                  Register
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

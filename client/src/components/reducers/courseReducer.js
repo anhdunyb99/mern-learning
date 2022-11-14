@@ -14,7 +14,11 @@ export const courseReducer = (state, action) => {
         courses: [],
         courseLoading: false,
       };
-
+    case "FIND_COURSE":
+      return {
+        ...state,
+        course : payload
+      }
     case "ADD_COURSE":
       return {
         ...state,
