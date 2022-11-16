@@ -25,7 +25,6 @@ export const courseReducer = (state, action) => {
         courses: [...state.courses, payload],
       };
     case "ADD_STUDENT":
-      console.log('123');
     return {
       ...state,
       course : payload

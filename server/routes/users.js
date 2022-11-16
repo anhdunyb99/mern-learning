@@ -41,9 +41,19 @@ router.post("/:id", verifyToken, async (req, res) => {
       })
     }
     console.log('updateStudent',updateStudent);
-    const  data = await Course.findOneAndUpdate(condition, updateStudent, {
+    /* const  data = await Course.findOneAndUpdate(condition, updateStudent, {
       new: true
     });
+    console.log('data',data); */
+    await Course.updateOne(
+      { _id: req.params.id },
+      {
+        $push: {
+          listStudent: updateStudent.listStudent,
+        },
+      }
+    );
+    const data = await Course.findById(req.params.id)
     console.log('data',data);
     res.json({ success: true , data : data });
   } catch (error) {
