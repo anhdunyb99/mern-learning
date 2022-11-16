@@ -8,7 +8,7 @@ import Profile from "../views/Profile";
 const Home = () => {
   return (
     <div>
-    <Menu/>
+    123123
     </div>
   );
 };

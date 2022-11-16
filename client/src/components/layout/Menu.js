@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContexts";
 
 const Menu = () => {
-  const {
-    authState: {
-      user: { username },
-    },
-    logoutUser,
-  } = useContext(AuthContext);
+  const { logoutUser } = useContext(AuthContext);
 
   const logout = () => logoutUser();
   return (

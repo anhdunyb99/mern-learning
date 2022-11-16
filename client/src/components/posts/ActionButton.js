@@ -11,6 +11,7 @@ const ActionButton = ({ url, _id }) => {
     findPost(postId);
     setShowUpdateModal(true)
   };
+  
   return (
     <div>
       <Button className="post-button" href={url} target="_blank">

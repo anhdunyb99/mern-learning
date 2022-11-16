@@ -53,7 +53,7 @@ const AddCourseModal = () => {
     });
     setShowAddCourse(false);
   };
-  
+  console.log('showAddCourse',showAddCourse);
   return (
     <Modal show={showAddCourse} animation={false} onHide={closeDialog}>
       <Modal.Header closeButton>

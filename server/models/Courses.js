@@ -30,11 +30,8 @@ const CourseSchema = new Schema({
   },
   listStudent: [
     {
-      // Các file đi kèm comments
-      student: {
         type: Schema.Types.ObjectId,
         ref: "users",
-      },
     },
   ],
   user: {

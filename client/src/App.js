@@ -17,61 +17,66 @@ import Courses from "./components/views/Courses";
 import CourseContextsProvider from "./components/contexts/CourseContexts";
 import Home from "./components/home/Home";
 import CourseDetail from "./components/courses/CourseDetail";
+import Menu from "./components/layout/Menu";
+import StudentContextProvider from "./components/contexts/StudentContext";
 function App() {
   return (
     <AuthContextProvider>
       <PostContextsProvider>
         <CourseContextsProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/courses"
-                element={
-                  <ProtectedRoute>
-                    <Courses />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/home"
-                element={
-                  <ProtectedRoute>
-                    <Home />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/courses-detail"
-                element={
-                  <ProtectedRoute>
-                    <CourseDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/login" element={<Auth authRoute={"login"} />} />
-              <Route
-                path="/register"
-                element={<Auth authRoute={"register"} />}
-              />
-            </Routes>
-          </BrowserRouter>
+          <StudentContextProvider>
+            <BrowserRouter>
+              <Menu />
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/courses"
+                  element={
+                    <ProtectedRoute>
+                      <Courses />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/home"
+                  element={
+                    <ProtectedRoute>
+                      <Home />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/courses-detail"
+                  element={
+                    <ProtectedRoute>
+                      <CourseDetail />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/login" element={<Auth authRoute={"login"} />} />
+                <Route
+                  path="/register"
+                  element={<Auth authRoute={"register"} />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </StudentContextProvider>
         </CourseContextsProvider>
       </PostContextsProvider>
     </AuthContextProvider>

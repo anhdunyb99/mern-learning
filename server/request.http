@@ -52,7 +52,7 @@ POST http://localhost:5000/api/auth/login-google
 Content-Type: application/json
 
 ###
-GET http://localhost:5000/api/courses
+GET http://localhost:5000/api/courses/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJjNzZmMDUwNTVlNTAwYjcwZmFlYzUiLCJpYXQiOjE2Njc0NzIwMzF9.-bwaz-wEYtyAsuqJrECoyIUEm_0csTgcqjoWhHui3YA
 
 ###
@@ -78,3 +78,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzIxO
     "description" : "aaaa "
     
 }
+
+###
+GET http://localhost:5000/api/users/student
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzJjNzZmMDUwNTVlNTAwYjcwZmFlYzUiLCJpYXQiOjE2Njc0NzIwMzF9.-bwaz-wEYtyAsuqJrECoyIUEm_0csTgcqjoWhHui3YA

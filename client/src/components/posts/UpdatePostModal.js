@@ -31,6 +31,7 @@ const UpdatePostModal = () => {
 
 	const onSubmit = async event => {
 		event.preventDefault()
+		console.log('updatedPost',updatedPost);
 		await updatePost(updatedPost)
 		setShowUpdateModal(false)
 	}

@@ -53,20 +53,35 @@ const CourseContextsProvider = ({ children }) => {
   // find course 
   const findCourse = async (courseId) => {
     const course = courseState.courses.find((course) => course._id === courseId);
-    console.log('course',course);
+    
     dispatch({
       type : "FIND_COURSE",
       payload : course,
     })
   }
-
+  // add student to course
+  const addStudentToCourse = async (courseId,newStudent) => {
+    try {
+      const response = await axios.post(`${apiUrl}/users/${courseId}`,newStudent)
+      
+      if(response.data.success){
+        dispatch({
+          type : "ADD_STUDENT",
+          payload : response.data.data
+        })
+      }
+    } catch (error) {
+      
+    }
+  }
 const courseContextData = {
   courseState,
   showAddCourse,
   setShowAddCourse,
   getAllCourse,
   addCourse,
-  findCourse
+  findCourse,
+  addStudentToCourse
 };
 return (
   <CourseContexts.Provider value={courseContextData}>

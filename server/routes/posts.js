@@ -11,22 +11,22 @@ const storage = multer.diskStorage({
     cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
-    cb(null,file.originalname);
+    cb(null, file.originalname);
   },
 });
 const upload = multer({ storage: storage }).single("myfile");
 
 //uploadFile
-router.post("/uploadFile", async (req, res, next) => {
-  let CourseId = "";
+router.post("/uploadFile/:id", async (req, res, next) => {
   upload(req, res, async (err) => {
     if (err) {
       res.send(err);
       //console.log("err", err);
     } else {
-      let filePath = "http://localhost:5000/" + `${req.file.path}`;
-      console.log('filePath',filePath);
-      console.log("req.file", req.file);
+      const CourseId = req.params.id;
+      const filePath = "http://localhost:5000/" + `${req.file.path}`;
+      console.log("CourseId", CourseId);
+      console.log("filePath", filePath);
       let updatedFile = {
         name: req.file.originalname,
         contenType: req.file.mimetype,
@@ -107,6 +107,7 @@ router.post("/", verifyToken, async (req, res) => {
 });
 // update posts
 router.put("/:id", verifyToken, async (req, res) => {
+  console.log("req.body", req.body);
   const { title, description, url, status } = req.body;
 
   if (!title)

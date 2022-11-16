@@ -80,6 +80,7 @@ const PostContextsProvider = ({ children }) => {
         `${apiUrl}/posts/${updatedPost._id}`,
         updatedPost
       );
+      console.log('response',response);
       if (response.data.success) {
         dispatch({
           type: "UPDATE_POST",

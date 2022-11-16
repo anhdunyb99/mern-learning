@@ -16,9 +16,8 @@ const Profile = () => {
     setShowUpdateProfile(true)
   }
   return (
-    <div>
-      <Menu/>
-      <div className="container rounded bg-white mt-5 mb-5">
+    <>
+      <div className="wrapper rounded bg-white mt-5 mb-5">
         <div className="row">
           <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -125,7 +124,7 @@ const Profile = () => {
         </div>
         <UpdateUserDetailModal />
       </div>
-    </div>
+    </>
   );
 };
 

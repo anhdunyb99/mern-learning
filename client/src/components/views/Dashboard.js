@@ -92,7 +92,6 @@ const Dashboard = () => {
   }
   return (
     <div>
-      <Menu/>
       {body}
       <AddPostModal></AddPostModal>
       {post !== null && <UpdatePostModal />}

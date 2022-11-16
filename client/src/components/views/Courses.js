@@ -49,7 +49,7 @@ const Courses = () => {
   return (
     <div>
       <AddCourseModal />
-      <Menu />
+      
       {body}
     </div>
   );

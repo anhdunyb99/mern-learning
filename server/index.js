@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
-const courseRouter = require('./routes/courses')
+const courseRouter = require("./routes/courses");
+const userRouter = require("./routes/users");
 
 const connectDB = async () => {
   try {
@@ -29,10 +30,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.get("/", (req, res) => res.send("Hello world"));
+
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
-app.use('/api/courses',courseRouter)
-app.use('/uploads', express.static('./uploads'));
+app.use("/api/courses", courseRouter);
+app.use("/api/users", userRouter);
+app.use("/uploads", express.static("./uploads"));
+
 
 const PORT = 5000;
 
