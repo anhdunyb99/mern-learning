@@ -13,7 +13,7 @@ export const SelectBox = ({ props }) => {
     addStudentToCourse,
     courseState: { course },
   } = useContext(CourseContexts);
-  const newProps = [];
+  let newProps = [];
   const handleSelectChange = (event) => {
     setState(event);
   };
@@ -28,20 +28,16 @@ export const SelectBox = ({ props }) => {
     
   }, []); */
   if (course) {
-    for (let i in props) {
-      for (let j in course.listStudent) {
-        if (props[i]._id != course.listStudent[j]) {
-          newProps.push(props[i]);
-        }
-      }
-    }
+    newProps = props.filter((x) => {
+      return course.listStudent.indexOf(x._id) === -1;
+    });
   }
-  console.log("newProps", newProps);
+  
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <Select
-          options={props.map((x) => ({ label: x.fullName, value: x._id }))}
+          options={newProps.map((x) => ({ label: x.fullName, value: x._id }))}
           onChange={handleSelectChange}
           isMulti
         />

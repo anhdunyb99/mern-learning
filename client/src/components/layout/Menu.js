@@ -1,48 +1,60 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContexts";
-
+import "./Menu.css";
 const Menu = () => {
   const { logoutUser } = useContext(AuthContext);
-
+  const [toggle, setToggle] = useState(false);
   const logout = () => logoutUser();
+  const toggleClose = () => {
+    setToggle(false);
+  };
   return (
-    <div id="body-pd">
-      <header className="header" id="header">
-        <div className="header_toggle">
-          <i className="bi bi-house"></i>
-        </div>
-        <div className="header_img">
-          <img src="https://i.imgur.com/hczKIze.jpg" alt="" />
-        </div>
-      </header>
-      <div className="l-navbar" id="nav-bar">
-        <nav className="nav">
-          <div>
-            <a href="#" className="nav_logo">
-              <i className="bi bi-book"></i>
-            </a>
-            <div className="nav_list">
-              <Link to="/home" className="nav_link">
-                <i className="bi bi-house"></i>
+    <div className="header">
+      <div className="left__header">
+        <Link to="/">
+          <img
+            src="https://thumbs.dreamstime.com/b/e-learning-icon-trendy-logo-concept-white-backgro-background-education-collection-suitable-use-web-apps-mobile-131175980.jpg"
+            alt=""
+          />
+          <h4>Elearning</h4>
+        </Link>
+      </div>
+
+      <div
+        className={`middle__header ${
+          toggle ? `show__sidebar__nav` : `sidebar__nav`
+        }`}
+      >
+        <ul>
+          <>
+            <li>
+              <Link onClick={toggleClose} to="/dashboard">
+                Dashboard
               </Link>
-              <Link to="/dashboard" className="nav_link">
-                <i className="bi bi-bar-chart-line-fill"></i>
+            </li>
+            <li>
+              <Link onClick={toggleClose} to="/profile">
+                Profile
               </Link>
-              <Link to="/profile" className="nav_link">
-                <i className="bi bi-person-circle" />
+            </li>
+            <li>
+              <Link onClick={toggleClose} to="/courses">
+                Course
               </Link>
-              <Link to="/courses" className="nav_link">
-                <i className="bi bi-book" />
+            </li>
+            <li>
+              <Link onClick={toggleClose} to="/meeting">
+                Meeting
               </Link>
-            </div>
-          </div>
-          <div onClick={logout} className="nav_link">
-            <i className="bi bi-box-arrow-left"></i>
-            <span className="nav_name">SignOut</span>
-          </div>
-        </nav>
+            </li>
+          </>
+        </ul>
+      </div>
+      <div className="right__header" onClick={logout}>
+        SignOut
+        <i className="bi bi-box-arrow-left"></i>
       </div>
     </div>
   );
