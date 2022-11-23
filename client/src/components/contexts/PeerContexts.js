@@ -39,7 +39,7 @@ export const PeerProvider = (props) => {
   };
 
   const sendStream = async (stream) => {
-    const tracks = stream.getTreacks();
+    const tracks = stream.getTracks();
     for (const track of tracks) {
       peer.addTrack(track, stream);
     }
@@ -52,7 +52,7 @@ export const PeerProvider = (props) => {
 
   useEffect(() => {
     peer.addEventListener("track", handleTrackEvent);
-
+     
     return () => {
       peer.removeEventListener("track", handleTrackEvent);
     };
