@@ -29,7 +29,7 @@ router.get("/", verifyToken, async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
-
+  console.log('req.body',req.body);
   // kiem tra dieu kien
   if (!username || !password)
     return res

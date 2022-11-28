@@ -17,12 +17,9 @@ export const SelectBox = ({ props }) => {
   const handleSelectChange = (event) => {
     setState(event);
   };
-  console.log("course", course);
-  console.log("props", props);
   const handleSubmit = async (e) => {
     e.preventDefault();
     await addStudentToCourse(course._id, state);
-    console.log("123");
   };
   /* useEffect(() => {
     

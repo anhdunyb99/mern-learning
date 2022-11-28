@@ -18,15 +18,15 @@ const SingleCourse = ({ course: { _id, name, description, thumbnail } }) => {
     findCourse(courseId);
     setSelected(true);
   };
-  
+
   useEffect(() => {
-    if (selected == true) {
+    if (selected == true ) {
       navigate("/courses-detail");
     }
   }, [selected]);
+  
   return (
     <div>
-    
       <div
         className="card text-white card-has-bg click-col"
         style={{
