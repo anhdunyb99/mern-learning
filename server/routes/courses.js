@@ -16,21 +16,21 @@ router.get("/", verifyToken, async (req, res) => {
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  const { name, description, files ,thumbnails ,listStudent ,user} = req.body;
-  console.log('req.body',req.body)
-  let thumbnail = "http://localhost:5000/uploads/" + thumbnails.replace('C:\\fakepath\\','')
+  const { name, description, files, listStudent, user } = req.body;
+  /* console.log("req.body", req.body); */
+  /* let thumbnail =
+    "http://localhost:5000/uploads/" + thumbnails.replace("C:\\fakepath\\", ""); */
   //simple vadilation
-  console.log('thumbnail',thumbnail);
+  /* console.log("thumbnail", thumbnail); */
   if (!name)
     return res.status(400).json({ success: false, message: "Name is missing" });
   try {
     const newCourse = new Course({
       name,
       description,
-      files,
-      thumbnail,
+      files,  
       listStudent,
-      user
+      user,
     });
     await newCourse.save();
     res.json({
@@ -67,7 +67,23 @@ router.delete("/:id", verifyToken, async (req, res) => {
 
 // update course
 router.put("/:id", verifyToken, async (req, res) => {
-  const { name, description, files } = req.body;
+  const { name, description, files, listStudent } = req.body;
+  /* console.log("req.body", req.body.thumbnail);
+  console.log(
+    'req.body.thumbnail.indexOf("fakepath")',
+    req.body.thumbnail.indexOf("fakepath")
+  ); */
+  if (req.body.thumbnail && req.body.thumbnail.indexOf("fakepath") != -1) {
+    var thumbnails =
+      "http://localhost:5000/uploads/" +
+      req.body.thumbnail.replace("C:\\fakepath\\", "");
+    console.log("1");
+  }
+
+  //simple vadilation
+  if (thumbnails) {
+    var thumbnail = thumbnails;
+  }
 
   if (!name)
     return res
@@ -79,6 +95,8 @@ router.put("/:id", verifyToken, async (req, res) => {
       name,
       description,
       files,
+      thumbnail,
+      listStudent,
     };
     const condition = {
       _id: req.params.id,

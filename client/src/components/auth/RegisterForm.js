@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContexts";
 import { useContext, useState } from "react";
 import AlertMessage from "../layout/AlertMessage";
+import "./Style.css";
 const RegisterForm = () => {
   const { registerUser } = useContext(AuthContext);
   const [alert, setAlert] = useState(null);

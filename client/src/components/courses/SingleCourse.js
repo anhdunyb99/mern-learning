@@ -3,8 +3,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 import { Link, redirect, useNavigate } from "react-router-dom";
-
 import { CourseContexts } from "../contexts/CourseContexts";
+import Typography from "@material-ui/core/Typography";
+import Button from "react-bootstrap/esm/Button";
 //import ActionButton from "./ActionButton";
 
 const SingleCourse = ({ course: { _id, name, description, thumbnail } }) => {
@@ -20,11 +21,11 @@ const SingleCourse = ({ course: { _id, name, description, thumbnail } }) => {
   };
 
   useEffect(() => {
-    if (selected == true ) {
+    if (selected == true) {
       navigate("/courses-detail");
     }
   }, [selected]);
-  
+
   return (
     <div>
       <div
@@ -32,24 +33,22 @@ const SingleCourse = ({ course: { _id, name, description, thumbnail } }) => {
         style={{
           backgroundImage: `url(${thumbnail})`,
         }}
-        onClick={handleCourseSelection.bind(this, _id)}
       >
         <div className="card-img-overlay d-flex flex-column">
           <div className="card-body">
             <big className="card-meta mb-2">{name}</big>
             <h4 className="card-title mt-0 ">
-              <a className="text-white" herf="#">
-                {description}
-              </a>
+              <a>{description}</a>
             </h4>
           </div>
           <div className="card-footer">
-            <div className="media">
-              <div className="media-body">
-                <h6 className="my-0 text-white d-block">Người tạo</h6>
-                <small>Director of UI/UX</small>
-              </div>
-            </div>
+            <Button
+              onClick={handleCourseSelection.bind(this, _id)}
+              variant="primary"
+              type="submit"
+            >
+              Join Class
+            </Button>
           </div>
         </div>
       </div>

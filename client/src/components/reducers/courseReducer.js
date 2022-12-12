@@ -17,18 +17,23 @@ export const courseReducer = (state, action) => {
     case "FIND_COURSE":
       return {
         ...state,
-        course : payload
-      }
+        course: payload,
+      };
     case "ADD_COURSE":
       return {
         ...state,
         courses: [...state.courses, payload],
       };
     case "ADD_STUDENT":
-    return {
-      ...state,
-      course : payload
-    }
+      return {
+        ...state,
+        course: payload,
+      };
+    /* case "UPDATE_COURSE":
+      return {
+        ...state,
+        course: payload,
+      }; */
     default:
       return state;
   }

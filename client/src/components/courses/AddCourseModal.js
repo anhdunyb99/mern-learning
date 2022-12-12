@@ -37,14 +37,14 @@ const AddCourseModal = () => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("myfile", selectedFile);
+    /* const formData = new FormData();
+    formData.append("myfile", selectedFile); */
     await addCourse(newCourse);
-    await axios.post(`${apiUrl}/posts/uploadFile`, formData, {
+    /* await axios.post(`${apiUrl}/posts/uploadFile`, formData, {
       headers: {
         "Content-Type": "multipart/formData",
       },
-    });
+    }); */
     setNewCourse({
       name: "",
       description: "",
@@ -53,11 +53,16 @@ const AddCourseModal = () => {
     });
     setShowAddCourse(false);
   };
-  console.log('showAddCourse',showAddCourse);
+  console.log("showAddCourse", showAddCourse);
   return (
-    <Modal show={showAddCourse} animation={false} onHide={closeDialog}>
+    <Modal
+      size="lg"
+      show={showAddCourse}
+      animation={false}
+      onHide={closeDialog}
+    >
       <Modal.Header closeButton>
-        <Modal.Title>What do you want to learn</Modal.Title>
+        <Modal.Title>Thêm mới khóa học</Modal.Title>
       </Modal.Header>
       <Form onSubmit={onSubmit}>
         <Modal.Body>
@@ -95,10 +100,10 @@ const AddCourseModal = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeDialog}>
-            Cancel
+            Thoát
           </Button>
           <Button variant="primary" type="submit">
-            LearnIt
+            Thêm mới
           </Button>
         </Modal.Footer>
       </Form>

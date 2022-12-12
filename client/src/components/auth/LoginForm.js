@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import loginImg from "../../assets/social-media-marketing.png";
 import fbLogo from "../../assets/Facebook.svg.png";
 import googleLogo from "../../assets/google.png";
+import "./Style.css";
 //import "../styles/Style.css";
 const clientId =
   "69298724862-griorc4anl39v3ds6i22epk5st2jujpp.apps.googleusercontent.com";

@@ -1,0 +1,41 @@
+.quiz_view {
+    background: #ebebeb;
+}
+
+.quiz-container {
+    padding: 50px;
+    background: white;
+    width: 650px;
+    cursor: default;
+}
+
+.author{
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.question_card {
+    margin: 20px 0;
+    cursor: default;
+}
+
+.answer_sec {
+    margin-left: 1vw;
+}
+
+.answers{
+	display: flex;
+	align-items: center;
+}
+
+.quizsubmit {
+    border-radius: 50px;
+    margin: 10px 20px;
+    border: 2px solid #5eff86;
+    padding: 6px 25px;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    background: #5eff86;
+}

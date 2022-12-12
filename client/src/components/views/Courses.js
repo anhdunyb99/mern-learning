@@ -23,7 +23,7 @@ const Courses = () => {
   useEffect(() => {
     getAllCourse();
   }, []);
-  
+
   let body = null;
   body = (
     <div>
@@ -32,7 +32,7 @@ const Courses = () => {
           <div className="row-cols-4 row-cols-md-12 g-4 mx-auto mt-3 row">
             {courses.map((course) => (
               <Col key={course._id}>
-                <SingleCourse course={course} /> 
+                <SingleCourse course={course} />
               </Col>
             ))}
           </div>
@@ -41,7 +41,8 @@ const Courses = () => {
           style={{ float: "right" }}
           onClick={setShowAddCourse.bind(this, true)}
         >
-        <i className="bi bi-plus-lg"></i>
+          <i className="bi bi-plus-lg"></i>
+          Thêm khóa học
         </button>
       </section>
     </div>
@@ -49,7 +50,7 @@ const Courses = () => {
   return (
     <div>
       <AddCourseModal />
-      
+
       {body}
     </div>
   );

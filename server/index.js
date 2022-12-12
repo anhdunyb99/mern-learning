@@ -5,6 +5,7 @@ const cors = require("cors");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/posts");
 const courseRouter = require("./routes/courses");
+const quizzRouter = require("./routes/quizz");
 const userRouter = require("./routes/users");
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
@@ -68,6 +69,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/courses", courseRouter);
 app.use("/api/users", userRouter);
+app.use("/api/quizz", quizzRouter);
 app.use("/uploads", express.static("./uploads"));
 
 const PORT = 5000;

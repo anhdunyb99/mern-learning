@@ -14,7 +14,7 @@ const StudentContextProvider = ({ children }) => {
   const getAllStudent = async () => {
     try {
       const response = await axios.get(`${apiUrl}/users/student`);
-      console.log("response", response);
+      
       if (response.data.success) {
         dispatch({
           type: "STUDENT_LOAD_SUCCESS",

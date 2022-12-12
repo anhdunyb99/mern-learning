@@ -23,6 +23,7 @@ import Meet from "./components/Meeting/Meet";
 import { SocketProvider } from "./components/contexts/SocketContexts";
 import Room from "./components/Meeting/Room";
 import { PeerProvider } from "./components/contexts/PeerContexts";
+import QuizzPage from "./components/quizz/QuizzPage";
 function App() {
   return (
     <AuthContextProvider>
@@ -89,6 +90,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <Room />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/quizz/:courseId"
+                      element={
+                        <ProtectedRoute>
+                          <QuizzPage />
                         </ProtectedRoute>
                       }
                     />
