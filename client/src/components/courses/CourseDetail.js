@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CourseContexts } from "../contexts/CourseContexts";
-import Menu from "../layout/Menu";
+
 import UploadFile from "../common-component/UploadFile";
 import { SelectBox } from "../common-component/SelectBox";
 import { StudentContexts } from "../contexts/StudentContext";
 import ReactPlayer from "react-player";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { FileViewer } from "react-file-viewer";
 import {
   Container,
@@ -13,6 +13,8 @@ import {
   Typography,
   Button,
   Divider,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -22,6 +24,10 @@ import UpdateCourseDetail from "./UpdateCourseDetail";
 import QuizzAddModal from "../quizz/QuizzAddModal";
 import CommonHeader from "../common-component/CommonHeader";
 import ControlPointIcon from "@material-ui/icons/ControlPoint";
+import Dropdown from "react-bootstrap/Dropdown";
+import InsertCommentIcon from "@material-ui/icons/InsertComment";
+import NoticeToggleRow from "../common-component/NoticeToggleRow";
+
 const CourseDetail = () => {
   const {
     courseState: { course },
@@ -35,6 +41,8 @@ const CourseDetail = () => {
     getAllStudent,
     studentState: { students },
   } = useContext(StudentContexts);
+  
+  
   const navigate = useNavigate();
   const startExam = () => {
     navigate(`/quizz/${course._id}`);
@@ -42,47 +50,83 @@ const CourseDetail = () => {
   useEffect(() => {
     getAllStudent();
   }, []);
-  console.log("course", course);
+
+  
   return (
     <>
       {course && <CommonHeader title={course.name} />}
 
       <Container className="my-5">
+        <Paper className="py-1 px-3 mb-5">
+          <p
+            style={{
+              fontWeight: 800,
+              color: "red",
+              display: "inline-block",
+              marginRight: "20px",
+            }}
+          >
+            Thông báo của giáo viên:
+          </p>
+        </Paper>
         <Paper className="px-5 py-3">
-          <Button
-            variant="outlined"
-            startIcon={<ControlPointIcon />}
-            onClick={setShowUploadModal.bind(this, true)}
-          >
-            Upload tài liều
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<ControlPointIcon />}
-            onClick={setShowAddStudentModal.bind(this, true)}
-          >
-            Thêm học sinh
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<ControlPointIcon />}
-            onClick={setShowUpdateCourseDetail.bind(this, true)}
-          >
-            Chỉnh sửa thông tin khóa học
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<ControlPointIcon />}
-            onClick={setShowAddQuizzModal.bind(this, true)}
-          >
-            Thêm câu hỏi
-          </Button>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Quản lý khóa học
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                href=""
+                onClick={setShowUploadModal.bind(this, true)}
+              >
+                Upload tài liệu
+              </Dropdown.Item>
+              <Dropdown.Item
+                href=""
+                onClick={setShowAddStudentModal.bind(this, true)}
+              >
+                Thêm học sinh
+              </Dropdown.Item>
+              <Dropdown.Item
+                href=""
+                onClick={setShowUpdateCourseDetail.bind(this, true)}
+              >
+                Chỉnh sửa thông tin khóa học
+              </Dropdown.Item>
+              <Dropdown.Item
+                href=""
+                onClick={setShowAddQuizzModal.bind(this, true)}
+              >
+                Thêm câu hỏi
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <Button variant="outlined" onClick={startExam}>
             Bắt đầu bài thi
           </Button>
           <div>
             {course ? (
               <div>
+                <Accordion style={{ backgroundColor: "#EDEFF7" }}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>Mô tả lớp học</Typography>
+                  </AccordionSummary>
+                  <Typography className="mx-3 my-2" variant="h6">
+                    {course.name}
+                  </Typography>
+                  <AccordionDetails>
+                    <NoticeToggleRow
+                      Icon={InsertCommentIcon}
+                      title={course.description}
+                      description={course.courseDetail}
+                    />
+                    <Divider />
+                  </AccordionDetails>
+                </Accordion>
                 <UploadFile />
                 <SelectBox props={students} />
                 <UpdateCourseDetail />

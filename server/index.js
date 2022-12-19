@@ -7,6 +7,7 @@ const postRouter = require("./routes/posts");
 const courseRouter = require("./routes/courses");
 const quizzRouter = require("./routes/quizz");
 const userRouter = require("./routes/users");
+const resultRouter = require("./routes/result");
 const bodyParser = require("body-parser");
 const { Server } = require("socket.io");
 const io = new Server({
@@ -70,6 +71,7 @@ app.use("/api/posts", postRouter);
 app.use("/api/courses", courseRouter);
 app.use("/api/users", userRouter);
 app.use("/api/quizz", quizzRouter);
+app.use("/api/result", resultRouter);
 app.use("/uploads", express.static("./uploads"));
 
 const PORT = 5000;

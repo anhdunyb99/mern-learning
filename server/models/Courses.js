@@ -39,6 +39,10 @@ const CourseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
+  courseDetail: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

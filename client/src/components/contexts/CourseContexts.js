@@ -17,6 +17,7 @@ const CourseContextsProvider = ({ children }) => {
   const [showAddStudentModal, setShowAddStudentModal] = useState(false);
   const [showUpdateCourseDetail, setShowUpdateCourseDetail] = useState(false);
   const [showAddQuizzModal, setShowAddQuizzModal] = useState(false);
+  const [quizzResult, setQuizzResult] = useState(null);
   // get all course
 
   const getAllCourse = async () => {
@@ -80,6 +81,18 @@ const CourseContextsProvider = ({ children }) => {
       }
     } catch (error) {}
   };
+
+  // get quizz result
+  const getQuizzResultById = async (quizzId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/result/${quizzId}`);
+      console.log('response',response);
+      if (response.data.success) {
+        setQuizzResult(response.data.result);
+      }
+    } catch (error) {}
+  };
+  
   // update course detail
   const updateCourse = async (updatedCourse) => {
     try {
@@ -115,6 +128,8 @@ const CourseContextsProvider = ({ children }) => {
     updateCourse,
     showAddQuizzModal,
     setShowAddQuizzModal,
+    getQuizzResultById,
+    quizzResult
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

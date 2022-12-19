@@ -5,7 +5,7 @@ const Quizz = require("../models/Quizz");
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  console.log("req.body", req.body);
+  /* console.log("req.body", req.body); */
   const {
     category,
     typeCourse,
@@ -40,9 +40,9 @@ router.post("/", verifyToken, async (req, res) => {
 //get all quizz
 router.get("/:id", verifyToken, async (req, res) => {
   try {
-    console.log(req.params.id);
+    /* console.log(req.params.id); */
     const quizz = await Quizz.find({ typeCourse: req.params.id });
-    console.log("quizz", quizz);
+    
     res.json({ success: true, quizz });
   } catch (error) {
     console.log(error);

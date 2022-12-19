@@ -56,8 +56,8 @@ const UpdateCourseDetail = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log("selectedFile", selectedFile);
-  console.log("newCourseDetail", newCourseDetail);
+  /* console.log("selectedFile", selectedFile);
+  console.log("newCourseDetail", newCourseDetail); */
 
   return (
     <Modal size="lg" show={showUpdateCourseDetail} onHide={onCloseButton}>

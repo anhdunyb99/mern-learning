@@ -1,17 +1,23 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { apiUrl } from "../contexts/constants";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import "./Quizz.css";
+import { AuthContext } from "../contexts/AuthContexts";
 const QuizzPage = () => {
   const { courseId } = useParams();
   const [correctAnsw, setCorrectAnsw] = useState([]);
   const [userAnsw, setUserAnsw] = useState([]);
   const [quizzes, SetQuizzes] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
+  const {
+    authState: {
+      user: { fullName },
+    },
+  } = useContext(AuthContext);
   async function getQuizz() {
     try {
       const questions = await axios.get(`${apiUrl}/quizz/${courseId}`);
@@ -27,8 +33,10 @@ const QuizzPage = () => {
       console.error(e.message);
     }
   }
+  const navigate = useNavigate()
+  /* console.log("fullName", fullName);
   console.log("correctAnsw", correctAnsw);
-  console.log("quizzes", quizzes);
+  console.log("quizzes", quizzes); */
   useEffect(() => {
     getQuizz();
   }, []);
@@ -97,15 +105,24 @@ const QuizzPage = () => {
       wrongAnswer: arrAnswerWrong,
       date: Date.now(),
     }); */
-
-    /* history.push(`/quiz/${courseId}/results`); */
+    const result = await axios.post(`${apiUrl}/result`, {
+      name: fullName,
+      typeCourse: courseId,
+      score: marks,
+      wrongAnswer: arrAnswerWrong,
+      date: Date.now(),
+    });
+    let id = result.data.result._id
+    console.log('result',id);
+    navigate(`/quizz/${id}/results`);
+    
   }
   return (
     <div className="quiz_view d-flex justify-content-center">
       <div className="quiz-container">
         <div>
-          <p className="author">Tác giả</p>
-          <h1>Kì Thi</h1>
+          <p className="author">Người làm bài thi : {fullName}</p>
+          <h1>Bài thi</h1>
           <div className="question_card">
             {quizzes.length > 0 ? (
               quizzes.map((row, index) => (
@@ -141,7 +158,7 @@ const QuizzPage = () => {
                 </div>
               ))
             ) : (
-              <div>234</div>
+              <div>Bài thi chưa bắt đầu</div>
             )}
           </div>
         </div>
