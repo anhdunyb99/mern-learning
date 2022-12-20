@@ -29,11 +29,38 @@ export const courseReducer = (state, action) => {
         ...state,
         course: payload,
       };
-    /* case "UPDATE_COURSE":
+    case "UPDATE_COURSE":
+      const newCourses = state.courses.map((course) =>
+        course._id === payload._id ? payload : course
+      );
+      /* console.log('newCourses',newCourses); */
       return {
         ...state,
+        courses: newCourses,
         course: payload,
-      }; */
+      };
+
+    case "GET_ALL_QUIZ":
+      return {
+        ...state,
+        quizzs: payload,
+      };
+    case "UPDATE_QUIZZ":
+      const newQuizz = state.quizzs.map((quizz) =>
+        quizz._id === payload._id ? payload : quizz
+      );
+      console.log("newQuizz", newQuizz);
+      return {
+        ...state,
+        quizzs: newQuizz,
+        quizz: payload,
+      };
+      case "DELETE_QUIZ":
+        
+        return {
+          ...state,
+          quizzs: state.quizzs.filter((quizz) => quizz._id !== payload._id),
+        };
     default:
       return state;
   }

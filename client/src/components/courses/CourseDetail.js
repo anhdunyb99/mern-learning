@@ -51,7 +51,9 @@ const CourseDetail = () => {
     getAllStudent();
   }, []);
 
-  
+  const listQuizz = () => {
+    navigate(`/edit-quizz/${course._id}`);
+  }
   return (
     <>
       {course && <CommonHeader title={course.name} />}
@@ -103,6 +105,9 @@ const CourseDetail = () => {
           </Dropdown>
           <Button variant="outlined" onClick={startExam}>
             Bắt đầu bài thi
+          </Button>
+          <Button variant="outlined" onClick={listQuizz}>
+            Danh sách câu hỏi 
           </Button>
           <div>
             {course ? (

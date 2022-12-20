@@ -11,6 +11,8 @@ const CourseContextsProvider = ({ children }) => {
     course: null,
     courses: [],
     courseLoading: true,
+    quizz: null,
+    quizzs: [],
   });
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -86,31 +88,62 @@ const CourseContextsProvider = ({ children }) => {
   const getQuizzResultById = async (quizzId) => {
     try {
       const response = await axios.get(`${apiUrl}/result/${quizzId}`);
-      console.log('response',response);
+      console.log("response", response);
       if (response.data.success) {
         setQuizzResult(response.data.result);
       }
     } catch (error) {}
   };
-  
+
   // update course detail
   const updateCourse = async (updatedCourse) => {
     try {
-      console.log("response", response);
       const response = await axios.put(
         `${apiUrl}/courses/${updatedCourse._id}`,
         updatedCourse
       );
-      console.log("response", response.data);
+
       if (response.data.success) {
         dispatch({
           type: "UPDATE_COURSE",
-          payload: { course: response.data.course },
+          payload: response.data.course,
         });
       }
     } catch (error) {}
   };
-
+  // get all quiz of a course
+  const getAllQuiz = async (courseId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/quizz/${courseId}`);
+      
+      if (response.data.success) {
+        dispatch({
+          type: "GET_ALL_QUIZ",
+          payload: response.data.quizz,
+        });
+      }
+    } catch (error) {}
+  };
+  // update quizz
+  const updateQuizzsState = async (res) => {
+    try {
+      console.log("res", res.data.quizz);
+      dispatch({
+        type: "UPDATE_QUIZZ",
+        payload: res.data.quizz,
+      });
+    } catch (error) {}
+  };
+  //delete quizz
+  const deleteQuiz = async (res) => {
+    try {
+      console.log("res", res.data.data);
+      dispatch({
+        type: "DELETE_QUIZ",
+        payload: res.data.data,
+      });
+    } catch (error) {}
+  };
   const courseContextData = {
     courseState,
     showAddCourse,
@@ -129,7 +162,10 @@ const CourseContextsProvider = ({ children }) => {
     showAddQuizzModal,
     setShowAddQuizzModal,
     getQuizzResultById,
-    quizzResult
+    quizzResult,
+    getAllQuiz,
+    updateQuizzsState,
+    deleteQuiz
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

@@ -26,6 +26,7 @@ import { PeerProvider } from "./components/contexts/PeerContexts";
 import QuizzPage from "./components/quizz/QuizzPage";
 import QuizzResult from "./components/quizz/QuizzResult";
 import TestReview from "./components/quizz/TestReview";
+import EditQuizzPage from "./components/quizz/EditQuizzPage";
 function App() {
   return (
     <AuthContextProvider>
@@ -100,6 +101,14 @@ function App() {
                       element={
                         <ProtectedRoute>
                           <QuizzPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/edit-quizz/:courseId"
+                      element={
+                        <ProtectedRoute>
+                          <EditQuizzPage />
                         </ProtectedRoute>
                       }
                     />
