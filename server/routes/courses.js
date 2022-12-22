@@ -16,7 +16,8 @@ router.get("/", verifyToken, async (req, res) => {
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  const { name, description, files, listStudent, user } = req.body;
+  const { name, description, files, listStudent, user, courseDetail } =
+    req.body;
   /* console.log("req.body", req.body); */
   /* let thumbnail =
     "http://localhost:5000/uploads/" + thumbnails.replace("C:\\fakepath\\", ""); */
@@ -28,11 +29,13 @@ router.post("/", verifyToken, async (req, res) => {
     const newCourse = new Course({
       name,
       description,
-      files,  
+      files,
       listStudent,
       user,
+      courseDetail,
     });
     await newCourse.save();
+    console.log("newCourse", newCourse);
     res.json({
       success: true,
       message: "Create course successfully",
@@ -49,8 +52,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const courseDeleteCondition = { _id: req.params.id };
     const deletedCourse = await Course.findOneAndDelete(courseDeleteCondition);
-    console.log("courseDeleteCondition", courseDeleteCondition);
-    console.log("deletedCourse", deletedCourse);
+    
     // User not authorised or post not found
     if (!deletedCourse)
       return res.status(401).json({
@@ -64,7 +66,17 @@ router.delete("/:id", verifyToken, async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
+// get course by id
+router.get("/get-course/:id", verifyToken, async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const course = await Course.findById(req.params.id);
+    res.json({ success: true, data: course });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 // update course
 router.put("/:id", verifyToken, async (req, res) => {
   const { name, description, files, listStudent } = req.body;

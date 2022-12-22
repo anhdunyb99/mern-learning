@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CourseContexts } from "../contexts/CourseContexts";
 import { Modal } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -9,14 +9,30 @@ import { apiUrl } from "../contexts/constants";
 import axios from "axios";
 const UpdateCourseDetail = () => {
   const {
-    courseState: { course },
     showUpdateCourseDetail,
     setShowUpdateCourseDetail,
     updateCourse,
+    editCourseId,
+    getCourseById,
   } = useContext(CourseContexts);
-  const [newCourseDetail, setNewCourseDetail] = useState(course);
+  const [newCourseDetail, setNewCourseDetail] = useState(null);
+  const getData = async () => {
+    if (editCourseId) {
+      const res = await axios.get(
+        `${apiUrl}/courses/get-course/${editCourseId}`
+      );
+      setNewCourseDetail(res.data.data);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [editCourseId]);
   const [student, setStudent] = useState(null);
-  const { name, description, listStudent, thumbnail, _id } = newCourseDetail;
+  if (newCourseDetail) {
+    var { name, description, listStudent, thumbnail, _id } = newCourseDetail;
+  }
+
   const [selectedFile, setSelectedFile] = useState(null);
   const onCloseButton = () => {
     setShowUpdateCourseDetail(false);

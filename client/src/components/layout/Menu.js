@@ -55,6 +55,11 @@ const Menu = () => {
                     Meeting
                   </Link>
                 </li>
+                <li>
+                  <Link onClick={toggleClose} to="/course-management">
+                    Course Management
+                  </Link>
+                </li>
               </>
             </ul>
           </div>

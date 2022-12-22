@@ -52,7 +52,7 @@ const CourseDetail = () => {
   }, []);
 
   const listQuizz = () => {
-    navigate(`/edit-quizz/${course._id}`);
+    navigate(`/quizz-management/${course._id}`);
   }
   return (
     <>

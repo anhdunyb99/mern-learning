@@ -61,6 +61,8 @@ router.get("/find-quizz/:id", verifyToken, async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+//get course by id
+//find quiz by id
 
 // update quiz
 //get all quizz
@@ -111,4 +113,5 @@ router.delete("/:id", verifyToken, async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 module.exports = router;

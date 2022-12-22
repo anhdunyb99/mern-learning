@@ -20,7 +20,8 @@ const AddCourseModal = () => {
     listStudent: [],
   });
   const [selectedFile, setSelectedFile] = useState(null);
-  const { name, description, files, listStudent, thumbnails } = newCourse;
+  const { name, description, files, listStudent, thumbnails, courseDetail } =
+    newCourse;
   const onChangeNewCourse = (e) => {
     setNewCourse({
       ...newCourse,
@@ -50,10 +51,11 @@ const AddCourseModal = () => {
       description: "",
       files: [],
       listStudent: [],
+      courseDetail: "",
     });
     setShowAddCourse(false);
   };
-  console.log("showAddCourse", showAddCourse);
+
   return (
     <Modal
       size="lg"
@@ -77,16 +79,29 @@ const AddCourseModal = () => {
               onChange={onChangeNewCourse}
             ></Form.Control>
             <Form.Text id="title-help" muted>
-              Required
+              Description
+            </Form.Text>
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              rows={3}
+              placeholder="Description"
+              name="description"
+              value={description}
+              onChange={onChangeNewCourse}
+            ></Form.Control>
+            <Form.Text id="title-help" muted>
+              Course Detail
             </Form.Text>
           </Form.Group>
           <Form.Group>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="Description"
-              name="description"
-              value={description}
+              placeholder="CourseDetail"
+              name="courseDetail"
+              value={courseDetail}
               onChange={onChangeNewCourse}
             ></Form.Control>
           </Form.Group>

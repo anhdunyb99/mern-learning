@@ -10,6 +10,7 @@ const QuizzAddModal = () => {
     showAddQuizzModal,
     setShowAddQuizzModal,
     courseState: { course },
+    addQuiz
   } = useContext(CourseContexts);
   const [question, setQuestion] = useState("");
   const [correct_answer, setCorrectAnsw] = useState("");
@@ -38,7 +39,7 @@ const QuizzAddModal = () => {
     e.preventDefault();
     let correctAnsArr = [];
     correctAnsArr.splice(0, 0, answer1, answer2, answer3, answer4);
-    if (correctAnsArr.includes(correct_answer)) {
+    if (correctAnsArr.includes(correct_answer) && course) {
       const res = await axios.post(`${apiUrl}/quizz`, {
         category: category,
         typeCourse: course._id,
@@ -50,6 +51,7 @@ const QuizzAddModal = () => {
       });
       console.log("res", res);
       if (res.status == 200) {
+        addQuiz(res)
         alert("Tạo câu hỏi thành công");
         setCategory("");
         setDifficult(false);

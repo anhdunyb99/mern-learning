@@ -16,6 +16,8 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "@material-ui/core";
 import Form from "react-bootstrap/Form";
 import { CourseContexts } from "../contexts/CourseContexts";
+import ControlPointIcon from "@material-ui/icons/ControlPoint";
+import QuizzAddModal from "./QuizzAddModal";
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -30,7 +32,8 @@ const EditQuizzPage = () => {
     courseState: { quizzs },
     updateQuizzsState,
     getAllQuiz,
-    deleteQuiz
+    deleteQuiz,
+    setShowAddQuizzModal
   } = useContext(CourseContexts);
   const { courseId } = useParams();
   const [question, setQuestion] = useState("");
@@ -48,7 +51,7 @@ const EditQuizzPage = () => {
   useEffect(() => {
     getAllQuiz(courseId);
   }, []);
-  
+
   const handleEditItem = async (id) => {
     setShowEditModal(true);
     const res = await axios.get(`${apiUrl}/quizz/find-quizz/${id}`);
@@ -75,7 +78,7 @@ const EditQuizzPage = () => {
   console.log("answer1", answer4); */
   const handleDeleteItem = async (id) => {
     const res = await axios.delete(`${apiUrl}/quizz/${id}`);
-    await deleteQuiz(res)
+    await deleteQuiz(res);
   };
 
   const closeDialog = () => {
@@ -96,9 +99,9 @@ const EditQuizzPage = () => {
         correct_answer: correct_answer,
         answers: correctAnsArr,
       });
-      
+
       if (res.status == 200) {
-        updateQuizzsState(res)
+        updateQuizzsState(res);
         alert("Chỉnh sửa thành công");
         setCategory("");
         setDifficult(false);
@@ -117,13 +120,23 @@ const EditQuizzPage = () => {
   const handleClose = () => {
     setShowEditModal(false);
   };
+  
   return (
     <div>
+      <QuizzAddModal/>
       <Container>
         <Container fluid className="mb-5 mt-5">
           <Row>
             <Col md={12}>
               <Paper className="p-5 m-3 shadow">
+                <Button
+                  variant="outlined"
+                  startIcon={<ControlPointIcon />}
+                  onClick={setShowAddQuizzModal.bind(this, true)}
+                  className="mr-2"
+                >
+                  Thêm câu hỏi
+                </Button>
                 <Typography
                   className="text-center font-weight-bold pb-4"
                   variant="h5"

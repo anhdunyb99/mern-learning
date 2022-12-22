@@ -27,6 +27,7 @@ import QuizzPage from "./components/quizz/QuizzPage";
 import QuizzResult from "./components/quizz/QuizzResult";
 import TestReview from "./components/quizz/TestReview";
 import EditQuizzPage from "./components/quizz/EditQuizzPage";
+import CourseManagement from "./components/views/CourseManagement";
 function App() {
   return (
     <AuthContextProvider>
@@ -105,7 +106,7 @@ function App() {
                       }
                     />
                     <Route
-                      path="/edit-quizz/:courseId"
+                      path="/quizz-management/:courseId"
                       element={
                         <ProtectedRoute>
                           <EditQuizzPage />
@@ -128,7 +129,14 @@ function App() {
                         </ProtectedRoute>
                       }
                     />
-
+                    <Route
+                      path="/course-management"
+                      element={
+                        <ProtectedRoute>
+                          <CourseManagement />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route
                       path="/login"
                       element={<Auth authRoute={"login"} />}

@@ -20,8 +20,9 @@ const CourseContextsProvider = ({ children }) => {
   const [showUpdateCourseDetail, setShowUpdateCourseDetail] = useState(false);
   const [showAddQuizzModal, setShowAddQuizzModal] = useState(false);
   const [quizzResult, setQuizzResult] = useState(null);
+  const [editCourseId, setEditCourseId] = useState("");
   // get all course
-
+  console.log("editCourseId", editCourseId);
   const getAllCourse = async () => {
     try {
       const response = await axios.get(`${apiUrl}/courses`);
@@ -115,7 +116,7 @@ const CourseContextsProvider = ({ children }) => {
   const getAllQuiz = async (courseId) => {
     try {
       const response = await axios.get(`${apiUrl}/quizz/${courseId}`);
-      
+
       if (response.data.success) {
         dispatch({
           type: "GET_ALL_QUIZ",
@@ -144,6 +145,34 @@ const CourseContextsProvider = ({ children }) => {
       });
     } catch (error) {}
   };
+
+  const addQuiz = async (res) => {
+    try {
+      dispatch({
+        type: "ADD_QUIZ",
+        payload: res.data.quizz,
+      });
+    } catch (error) {}
+  };
+
+  const getCourseById = async (courseId) => {
+    try {
+      console.log('courseId',courseId);
+      /* const response = await axios.get(`${apiUrl}/courses/get-by-id/${courseId}`); */
+      
+    } catch (error) {}
+  };
+
+  //delete course
+  const deleteCourse = async (res) => {
+    try {
+      console.log("res", res.data.course);
+      dispatch({
+        type: "DELETE_COURSE",
+        payload: res.data.course,
+      });
+    } catch (error) {}
+  };
   const courseContextData = {
     courseState,
     showAddCourse,
@@ -165,7 +194,12 @@ const CourseContextsProvider = ({ children }) => {
     quizzResult,
     getAllQuiz,
     updateQuizzsState,
-    deleteQuiz
+    deleteQuiz,
+    addQuiz,
+    editCourseId,
+    setEditCourseId,
+    getCourseById,
+    deleteCourse
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

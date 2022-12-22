@@ -55,12 +55,21 @@ export const courseReducer = (state, action) => {
         quizzs: newQuizz,
         quizz: payload,
       };
-      case "DELETE_QUIZ":
-        
-        return {
-          ...state,
-          quizzs: state.quizzs.filter((quizz) => quizz._id !== payload._id),
-        };
+    case "DELETE_QUIZ":
+      return {
+        ...state,
+        quizzs: state.quizzs.filter((quizz) => quizz._id !== payload._id),
+      };
+    case "ADD_QUIZ":
+      return {
+        ...state,
+        quizzs: [...state.quizzs, payload],
+      };
+    case "DELETE_COURSE":
+      return {
+        ...state,
+        courses: state.courses.filter((course) => course._id !== payload._id),
+      };
     default:
       return state;
   }
