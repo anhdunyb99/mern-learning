@@ -22,7 +22,7 @@ import StudentContextProvider from "./components/contexts/StudentContext";
 import Meet from "./components/Meeting/Meet";
 import { SocketProvider } from "./components/contexts/SocketContexts";
 import Room from "./components/Meeting/Room";
-import { PeerProvider } from "./components/contexts/PeerContexts";
+
 import QuizzPage from "./components/quizz/QuizzPage";
 import QuizzResult from "./components/quizz/QuizzResult";
 import TestReview from "./components/quizz/TestReview";
@@ -35,7 +35,7 @@ function App() {
         <CourseContextsProvider>
           <StudentContextProvider>
             <SocketProvider>
-              <PeerProvider>
+              
                 <BrowserRouter>
                   <Menu />
                   <Routes>
@@ -147,7 +147,7 @@ function App() {
                     />
                   </Routes>
                 </BrowserRouter>
-              </PeerProvider>
+              
             </SocketProvider>
           </StudentContextProvider>
         </CourseContextsProvider>
