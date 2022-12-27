@@ -20,9 +20,9 @@ import CourseDetail from "./components/courses/CourseDetail";
 import Menu from "./components/layout/Menu";
 import StudentContextProvider from "./components/contexts/StudentContext";
 import Meet from "./components/Meeting/Meet";
-import { SocketProvider } from "./components/contexts/SocketContexts";
-import Room from "./components/Meeting/Room";
 
+import Room from "./components/Meeting/Room";
+import { ContextProvider } from "./components/contexts/SocketContexts";
 import QuizzPage from "./components/quizz/QuizzPage";
 import QuizzResult from "./components/quizz/QuizzResult";
 import TestReview from "./components/quizz/TestReview";
@@ -34,121 +34,116 @@ function App() {
       <PostContextsProvider>
         <CourseContextsProvider>
           <StudentContextProvider>
-            <SocketProvider>
-              
-                <BrowserRouter>
-                  <Menu />
-                  <Routes>
-                    <Route path="/" element={<Landing />} />
-                    <Route
-                      path="/dashboard"
-                      element={
-                        <ProtectedRoute>
-                          <Dashboard />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/profile"
-                      element={
-                        <ProtectedRoute>
-                          <Profile />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/courses"
-                      element={
-                        <ProtectedRoute>
-                          <Courses />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/home"
-                      element={
-                        <ProtectedRoute>
-                          <Home />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/courses-detail"
-                      element={
-                        <ProtectedRoute>
-                          <CourseDetail />
-                        </ProtectedRoute>
-                      }
-                    />
+            <ContextProvider>
+              <BrowserRouter>
+                <Menu />
+                <Routes>
+                  <Route path="/" element={<Landing />} />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/courses"
+                    element={
+                      <ProtectedRoute>
+                        <Courses />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/home"
+                    element={
+                      <ProtectedRoute>
+                        <Home />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/courses-detail"
+                    element={
+                      <ProtectedRoute>
+                        <CourseDetail />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                    <Route
-                      path="/meeting"
-                      element={
-                        <ProtectedRoute>
-                          <Meet />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/room/:roomId"
-                      element={
-                        <ProtectedRoute>
-                          <Room />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/quizz/:courseId"
-                      element={
-                        <ProtectedRoute>
-                          <QuizzPage />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/quizz-management/:courseId"
-                      element={
-                        <ProtectedRoute>
-                          <EditQuizzPage />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/quizz/:quizzId/results"
-                      element={
-                        <ProtectedRoute>
-                          <QuizzResult />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/quizz/:courseId/review"
-                      element={
-                        <ProtectedRoute>
-                          <TestReview />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/course-management"
-                      element={
-                        <ProtectedRoute>
-                          <CourseManagement />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/login"
-                      element={<Auth authRoute={"login"} />}
-                    />
-                    <Route
-                      path="/register"
-                      element={<Auth authRoute={"register"} />}
-                    />
-                  </Routes>
-                </BrowserRouter>
-              
-            </SocketProvider>
+                  <Route
+                    path="/meeting"
+                    element={
+                      <ProtectedRoute>
+                        <Meet />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/room/:roomId"
+                    element={
+                      <ProtectedRoute>
+                        <Room />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/quizz/:courseId"
+                    element={
+                      <ProtectedRoute>
+                        <QuizzPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/quizz-management/:courseId"
+                    element={
+                      <ProtectedRoute>
+                        <EditQuizzPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/quizz/:quizzId/results"
+                    element={
+                      <ProtectedRoute>
+                        <QuizzResult />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/quizz/:courseId/review"
+                    element={
+                      <ProtectedRoute>
+                        <TestReview />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/course-management"
+                    element={
+                      <ProtectedRoute>
+                        <CourseManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="/login" element={<Auth authRoute={"login"} />} />
+                  <Route
+                    path="/register"
+                    element={<Auth authRoute={"register"} />}
+                  />
+                </Routes>
+              </BrowserRouter>
+            </ContextProvider>
           </StudentContextProvider>
         </CourseContextsProvider>
       </PostContextsProvider>

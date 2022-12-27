@@ -18,7 +18,7 @@ function Auth({ authRoute }) {
       </div>
     );
   } else if (isAuthenticated) {
-    return <Navigate replace to="/dashboard" />;
+    return <Navigate replace to="/courses" />;
   } else {
     body = (
       <div>

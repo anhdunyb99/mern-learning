@@ -36,8 +36,8 @@ const Menu = () => {
             <ul>
               <>
                 <li>
-                  <Link onClick={toggleClose} to="/dashboard">
-                    Dashboard
+                  <Link onClick={toggleClose} to="/courses">
+                    Course
                   </Link>
                 </li>
                 <li>
@@ -45,11 +45,7 @@ const Menu = () => {
                     Profile
                   </Link>
                 </li>
-                <li>
-                  <Link onClick={toggleClose} to="/courses">
-                    Course
-                  </Link>
-                </li>
+
                 <li>
                   <Link onClick={toggleClose} to="/meeting">
                     Meeting
