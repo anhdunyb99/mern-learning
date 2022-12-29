@@ -6,6 +6,7 @@ import "./Menu.css";
 const Menu = () => {
   const { logoutUser } = useContext(AuthContext);
   const [toggle, setToggle] = useState(false);
+
   const logout = () => logoutUser();
   const toggleClose = () => {
     setToggle(false);
@@ -13,6 +14,7 @@ const Menu = () => {
   const {
     authState: { isAuthenticated },
   } = useContext(AuthContext);
+
   return (
     <>
       {" "}
@@ -37,30 +39,41 @@ const Menu = () => {
               <>
                 <li>
                   <Link onClick={toggleClose} to="/courses">
-                    Course
+                    Khóa học
                   </Link>
                 </li>
                 <li>
                   <Link onClick={toggleClose} to="/profile">
-                    Profile
+                    Thông tin cá nhân
                   </Link>
                 </li>
 
                 <li>
                   <Link onClick={toggleClose} to="/meeting">
-                    Meeting
+                    Tạo phòng họp
                   </Link>
                 </li>
-                <li>
-                  <Link onClick={toggleClose} to="/course-management">
-                    Course Management
-                  </Link>
-                </li>
+
+                {localStorage.role === "TEACHER" && (
+                  <li>
+                    <Link onClick={toggleClose} to="/course-management">
+                      Quản lý khóa học
+                    </Link>
+                  </li>
+                )}
+
+                {localStorage.role === "TEACHER" && (
+                  <li>
+                    <Link onClick={toggleClose} to="/user-management">
+                      Quản lý học sinh
+                    </Link>
+                  </li>
+                )}
               </>
             </ul>
           </div>
           <div className="right__header" onClick={logout}>
-            SignOut
+            Đăng xuất
             <i className="bi bi-box-arrow-left"></i>
           </div>
         </div>

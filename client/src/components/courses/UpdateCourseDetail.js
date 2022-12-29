@@ -112,7 +112,7 @@ const UpdateCourseDetail = () => {
               onChange={handleFileSelected}
             />
           </Form.Group>
-          ;
+          
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onCloseButton}>

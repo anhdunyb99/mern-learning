@@ -1,4 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { StudentContexts } from "../contexts/StudentContext";
+import { makeStyles } from "@material-ui/core/styles";
+import { apiUrl } from "../contexts/constants";
+import { Button } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import { Avatar, Paper, Typography } from "@material-ui/core";
 import { Col, Row } from "react-bootstrap";
@@ -8,14 +12,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles } from "@material-ui/core/styles";
-import { apiUrl } from "../contexts/constants";
-import axios from "axios";
-import { Button } from "@material-ui/core";
-import { CourseContexts } from "../contexts/CourseContexts";
-import UpdateCourseDetail from "../courses/UpdateCourseDetail";
-import ControlPointIcon from "@material-ui/icons/ControlPoint";
-import AddCourseModal from "../courses/AddCourseModal";
+import EditUserModal from "../user/EditUserModal";
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -25,54 +22,41 @@ const useStyles = makeStyles({
     paddingTop: "30px",
   },
 });
-const CourseManagement = () => {
-  const [idCourse, setIdCourse] = useState("");
+const UserManagement = () => {
   const {
-    courseState: { courses },
-    setShowUpdateCourseDetail,
-    getAllCourse,
-    setEditCourseId,
-    getCourseById,
-    setShowAddCourse,
-    deleteCourse
-  } = useContext(CourseContexts);
-  const classes = useStyles();
-
-  const handleEditItem = async (id) => {
-    await setEditCourseId(id);
-    await setShowUpdateCourseDetail(true);
-  };
-  const handleDeleteItem = async (id) => {
-    const res = await axios.delete(`${apiUrl}/courses/${id}`);
-    
-    await deleteCourse(res)
-  };
+    getAllStudent,
+    studentState: { students },
+    setEditStudentId,
+    setShowEditModal,
+    deleteStudent,
+  } = useContext(StudentContexts);
   useEffect(() => {
-    getAllCourse();
+    getAllStudent();
   }, []);
+  const classes = useStyles();
+  const handleEditItem = async (id) => {
+    await setEditStudentId(id);
+    await setShowEditModal(true);
+  };
 
+  const handleDeleteItem = async (id) => {
+    await deleteStudent(id);
+    console.log(id);
+  };
+  console.log("students", students);
   return (
     <div>
-      <UpdateCourseDetail />
-      <AddCourseModal />
+      <EditUserModal />
       <Container>
-        <Container  className="mb-5 mt-5">
+        <Container className="mb-5 mt-5">
           <Row>
             <Col md={12}>
               <Paper className="p-5 m-3 shadow">
-                <Button
-                  variant="outlined"
-                  startIcon={<ControlPointIcon />}
-                  onClick={setShowAddCourse.bind(this, true)}
-                  className="mr-2"
-                >
-                  Thêm khóa học
-                </Button>
                 <Typography
                   className="text-center font-weight-bold pb-4"
                   variant="h5"
                 >
-                  Danh sách khóa học
+                  Danh sách học sinh
                 </Typography>
                 <Container className={classes.root}>
                   <TableContainer component={Paper}>
@@ -80,13 +64,13 @@ const CourseManagement = () => {
                       <TableHead>
                         <TableRow className="bg-dark ">
                           <TableCell align="center" className="text-light">
-                            Khóa học
+                            Tài khoản
                           </TableCell>
                           <TableCell align="center" className="text-light">
-                            Mô tả
+                            Tên học sinh
                           </TableCell>
                           <TableCell align="center" className="text-light">
-                            Giáo viên
+                            Email
                           </TableCell>
                           <TableCell align="center" className="text-light">
                             Hành động
@@ -94,13 +78,11 @@ const CourseManagement = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {courses.map((row) => (
+                        {students.map((row) => (
                           <TableRow key={row.id}>
-                            <TableCell align="center">{row.name}</TableCell>
-                            <TableCell align="center">
-                              {row.description}
-                            </TableCell>
-                            <TableCell align="center"></TableCell>
+                            <TableCell align="center">{row.username}</TableCell>
+                            <TableCell align="center">{row.fullName}</TableCell>
+                            <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
                               <Button
                                 variant="outlined"
@@ -135,4 +117,4 @@ const CourseManagement = () => {
   );
 };
 
-export default CourseManagement;
+export default UserManagement;

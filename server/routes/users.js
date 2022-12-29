@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/auth");
 const User = require("../models/User");
-const Course = require('../models/Courses')
+const Course = require("../models/Courses");
 //
 router.get("/", verifyToken, async (req, res) => {
   try {
@@ -18,29 +18,74 @@ router.get("/", verifyToken, async (req, res) => {
 router.get("/student", verifyToken, async (req, res) => {
   try {
     const student = await User.find({ role: "STUDENT" });
-    
+
     res.json({ success: true, student });
   } catch (error) {}
 });
 
+//get student by id
+router.get("/:id", verifyToken, async (req, res) => {
+  try {
+    const student = await User.findById(req.params.id);
+    res.json({ success: true, student: student });
+  } catch (error) {}
+});
+//update student infomation
+router.put("/:id", verifyToken, async (req, res) => {
+  const { username, password, email, fullName, role } = req.body;
+  try {
+    const checkName = await User.findOne({username})
+    if(checkName){
+      return res
+        .status(400)
+        .json({ success: false, message: "Username has already exist"});
+    }
+    let updateStudent = {
+      username,
+      password,
+      email,
+      fullName,
+      role,
+    };
+    const condition = {
+      _id: req.params.id,
+    };
+    data = await User.findOneAndUpdate(condition, updateStudent, {
+      new: true,
+    });
+    console.log("data", data);
+    res.json({ success: true, data: data });
+  } catch (error) {}
+});
+// delete
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const condition = { _id: req.params.id };
+    console.log("condition", condition);
+    const deleteStudent = await User.findOneAndDelete(condition);
+    
+    res.json({ success: true , data : deleteStudent});
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 //select student to course
 router.post("/:id", verifyToken, async (req, res) => {
   try {
-    console.log("req.body", req.body);
-    console.log('req.params',req.params);
     let updateStudent = {
-      listStudent : []
-    }
-    const  condition = {
-      _id : req.params.id
-    }
-    if(req.body && req.params){
+      listStudent: [],
+    };
+    const condition = {
+      _id: req.params.id,
+    };
+    if (req.body && req.params) {
       req.body.map((x) => {
-        updateStudent.listStudent.push(x.value)
+        updateStudent.listStudent.push(x.value);
         console.log(x.value);
-      })
+      });
     }
-    console.log('updateStudent',updateStudent);
+    console.log("updateStudent", updateStudent);
     /* const  data = await Course.findOneAndUpdate(condition, updateStudent, {
       new: true
     });
@@ -53,9 +98,9 @@ router.post("/:id", verifyToken, async (req, res) => {
         },
       }
     );
-    const data = await Course.findById(req.params.id)
-    console.log('data',data);
-    res.json({ success: true , data : data });
+    const data = await Course.findById(req.params.id);
+    console.log("data", data);
+    res.json({ success: true, data: data });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });

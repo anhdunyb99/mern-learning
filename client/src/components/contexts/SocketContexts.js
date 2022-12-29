@@ -5,7 +5,7 @@ import io from "socket.io-client";
 const SocketContext = createContext();
 const socket = io.connect("http://localhost:5001");
 const ContextProvider = ({ children }) => {
-  console.log("socket", socket);
+  
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
@@ -22,8 +22,9 @@ const ContextProvider = ({ children }) => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-
-        myVideo.current.srcObject = currentStream;
+        if (myVideo.current) {
+          myVideo.current.srcObject = currentStream;
+        }
       });
 
     socket.on("me", (id) => setMe(id));

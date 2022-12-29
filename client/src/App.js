@@ -28,6 +28,7 @@ import QuizzResult from "./components/quizz/QuizzResult";
 import TestReview from "./components/quizz/TestReview";
 import EditQuizzPage from "./components/quizz/EditQuizzPage";
 import CourseManagement from "./components/views/CourseManagement";
+import UserManagement from "./components/views/UserManagement";
 function App() {
   return (
     <AuthContextProvider>
@@ -133,6 +134,14 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <CourseManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/user-management"
+                    element={
+                      <ProtectedRoute>
+                        <UserManagement />
                       </ProtectedRoute>
                     }
                   />
