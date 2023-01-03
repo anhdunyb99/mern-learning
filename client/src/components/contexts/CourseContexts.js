@@ -13,6 +13,8 @@ const CourseContextsProvider = ({ children }) => {
     courseLoading: true,
     quizz: null,
     quizzs: [],
+    notification: null,
+    notifications: [],
   });
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -21,8 +23,9 @@ const CourseContextsProvider = ({ children }) => {
   const [showAddQuizzModal, setShowAddQuizzModal] = useState(false);
   const [quizzResult, setQuizzResult] = useState(null);
   const [editCourseId, setEditCourseId] = useState("");
+  const [showAddNotification, setShowAddNotification] = useState(false);
   // get all course
-  console.log("editCourseId", editCourseId);
+
   const getAllCourse = async () => {
     try {
       const response = await axios.get(`${apiUrl}/courses`);
@@ -125,6 +128,19 @@ const CourseContextsProvider = ({ children }) => {
       }
     } catch (error) {}
   };
+  // get all notification of a course
+  const getNotification = async (courseId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/notification/${courseId}`);
+      
+      if (response.data.success) {
+        dispatch({
+          type: "GET_ALL_NOTIFICATION",
+          payload: response.data.data,
+        });
+      }
+    } catch (error) {}
+  };
   // update quizz
   const updateQuizzsState = async (res) => {
     try {
@@ -157,9 +173,8 @@ const CourseContextsProvider = ({ children }) => {
 
   const getCourseById = async (courseId) => {
     try {
-      console.log('courseId',courseId);
+      console.log("courseId", courseId);
       /* const response = await axios.get(`${apiUrl}/courses/get-by-id/${courseId}`); */
-      
     } catch (error) {}
   };
 
@@ -199,7 +214,10 @@ const CourseContextsProvider = ({ children }) => {
     editCourseId,
     setEditCourseId,
     getCourseById,
-    deleteCourse
+    deleteCourse,
+    showAddNotification,
+    setShowAddNotification,
+    getNotification
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

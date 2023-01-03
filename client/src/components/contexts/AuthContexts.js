@@ -29,6 +29,8 @@ const AuthContextProvider = ({ children }) => {
       const response = await axios.get(`${apiUrl}/auth`);
       if (response.data.success) {
         localStorage.setItem('role', response.data.user.role);
+        localStorage.setItem('id', response.data.user._id);
+        
         dispatch({
           type: "SET_AUTH",
           payload: { isAuthenticated: true, user: response.data.user },

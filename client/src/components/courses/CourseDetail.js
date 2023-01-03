@@ -27,33 +27,38 @@ import ControlPointIcon from "@material-ui/icons/ControlPoint";
 import Dropdown from "react-bootstrap/Dropdown";
 import InsertCommentIcon from "@material-ui/icons/InsertComment";
 import NoticeToggleRow from "../common-component/NoticeToggleRow";
+import AddNotificationModal from "../notification/AddNotificationModal";
 
 const CourseDetail = () => {
   const {
-    courseState: { course },
+    courseState: { course, notifications },
     setShowUploadModal,
     setShowAddStudentModal,
     setShowUpdateCourseDetail,
     setShowAddQuizzModal,
+    setShowAddNotification,
+    getNotification,
   } = useContext(CourseContexts);
 
   const {
     getAllStudent,
     studentState: { students },
   } = useContext(StudentContexts);
-  
-  
+
   const navigate = useNavigate();
   const startExam = () => {
     navigate(`/quizz/${course._id}`);
   };
   useEffect(() => {
     getAllStudent();
+    if (course) {
+      getNotification(course._id);
+    }
   }, []);
-
+  console.log("notifications", notifications);
   const listQuizz = () => {
     navigate(`/quizz-management/${course._id}`);
-  }
+  };
   return (
     <>
       {course && <CommonHeader title={course.name} />}
@@ -70,44 +75,69 @@ const CourseDetail = () => {
           >
             Thông báo của giáo viên:
           </p>
+          <ul>
+            {notifications.length > 0 &&
+              notifications.map((e) => (
+                <li
+                  key={e._id}
+                  style={{
+                    borderBottom: "1px solid gray",
+                    margin: "10px 0",
+                    listStyle: "none",
+                  }}
+                  className="notification"
+                >
+                  <p>{e.description}</p>
+                </li>
+              ))}
+          </ul>
         </Paper>
         <Paper className="px-5 py-3">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Quản lý khóa học
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item
-                href=""
-                onClick={setShowUploadModal.bind(this, true)}
-              >
-                Upload tài liệu
-              </Dropdown.Item>
-              <Dropdown.Item
-                href=""
-                onClick={setShowAddStudentModal.bind(this, true)}
-              >
-                Thêm học sinh
-              </Dropdown.Item>
-              <Dropdown.Item
-                href=""
-                onClick={setShowUpdateCourseDetail.bind(this, true)}
-              >
-                Chỉnh sửa thông tin khóa học
-              </Dropdown.Item>
-              <Dropdown.Item
-                href=""
-                onClick={setShowAddQuizzModal.bind(this, true)}
-              >
-                Thêm câu hỏi
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          {localStorage.role === "TEACHER" && (
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Quản lý khóa học
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  href=""
+                  onClick={setShowUploadModal.bind(this, true)}
+                >
+                  Upload tài liệu
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href=""
+                  onClick={setShowAddStudentModal.bind(this, true)}
+                >
+                  Thêm học sinh
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href=""
+                  onClick={setShowUpdateCourseDetail.bind(this, true)}
+                >
+                  Chỉnh sửa thông tin khóa học
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href=""
+                  onClick={setShowAddQuizzModal.bind(this, true)}
+                >
+                  Thêm câu hỏi
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href=""
+                  onClick={setShowAddNotification.bind(this, true)}
+                >
+                  Thêm thông báo
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+
           <Button variant="outlined" onClick={startExam}>
             Bắt đầu bài thi
           </Button>
           <Button variant="outlined" onClick={listQuizz}>
-            Danh sách câu hỏi 
+            Danh sách câu hỏi
           </Button>
           <div>
             {course ? (
@@ -135,6 +165,7 @@ const CourseDetail = () => {
                 <UploadFile />
                 <SelectBox props={students} />
                 <UpdateCourseDetail />
+                <AddNotificationModal />
                 <QuizzAddModal />
                 {course.files.map((courses, index) =>
                   courses.contenType == "video/mp4" ? (

@@ -8,6 +8,7 @@ const courseRouter = require("./routes/courses");
 const quizzRouter = require("./routes/quizz");
 const userRouter = require("./routes/users");
 const resultRouter = require("./routes/result");
+const notificationRouter = require("./routes/notification");
 const PORT = 5000;
 const { Server } = require("socket.io");
 const cors = require("cors");
@@ -64,8 +65,8 @@ app.use("/api/courses", courseRouter);
 app.use("/api/users", userRouter);
 app.use("/api/quizz", quizzRouter);
 app.use("/api/result", resultRouter);
+app.use("/api/notification", notificationRouter);
 app.use("/uploads", express.static("./uploads"));
 
 app.listen(PORT, () => console.log(`Server start on ${PORT}`));
 io.listen(5001);
-

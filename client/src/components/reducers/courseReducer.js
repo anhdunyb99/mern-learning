@@ -45,6 +45,11 @@ export const courseReducer = (state, action) => {
         ...state,
         quizzs: payload,
       };
+      case "GET_ALL_NOTIFICATION":
+      return {
+        ...state,
+        notifications: payload,
+      };
     case "UPDATE_QUIZZ":
       const newQuizz = state.quizzs.map((quizz) =>
         quizz._id === payload._id ? payload : quizz

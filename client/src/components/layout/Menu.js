@@ -14,7 +14,9 @@ const Menu = () => {
   const {
     authState: { isAuthenticated },
   } = useContext(AuthContext);
-
+  if (localStorage) {
+    console.log("localStorage", localStorage);
+  }
   return (
     <>
       {" "}
