@@ -35,7 +35,7 @@ router.post("/", verifyToken, async (req, res) => {
       courseDetail,
     });
     await newCourse.save();
-    console.log("newCourse", newCourse);
+    /* console.log("newCourse", newCourse); */
     res.json({
       success: true,
       message: "Create course successfully",
@@ -52,7 +52,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const courseDeleteCondition = { _id: req.params.id };
     const deletedCourse = await Course.findOneAndDelete(courseDeleteCondition);
-    
+
     // User not authorised or post not found
     if (!deletedCourse)
       return res.status(401).json({
@@ -69,8 +69,19 @@ router.delete("/:id", verifyToken, async (req, res) => {
 // get course by id
 router.get("/get-course/:id", verifyToken, async (req, res) => {
   try {
-    console.log(req.params.id);
+    /* console.log(req.params.id); */
     const course = await Course.findById(req.params.id);
+    res.json({ success: true, data: course });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+// get course by user id
+router.get("/:id", verifyToken, async (req, res) => {
+  try {
+    const course = await Course.find({ listStudent: req.params.id });
+
     res.json({ success: true, data: course });
   } catch (error) {
     console.log(error);
@@ -89,7 +100,6 @@ router.put("/:id", verifyToken, async (req, res) => {
     var thumbnails =
       "http://localhost:5000/uploads/" +
       req.body.thumbnail.replace("C:\\fakepath\\", "");
-    console.log("1");
   }
 
   //simple vadilation

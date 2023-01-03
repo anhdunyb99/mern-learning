@@ -102,9 +102,11 @@ const UpdateCourseDetail = () => {
               value={description}
               onChange={onChangeCourseDetail}
             />
+            <Form.Text id="title-help" muted>
+              Thumnail
+            </Form.Text>
           </Form.Group>
           <Form.Group>
-            <Form.Label>Thumnail</Form.Label>
             <Form.Control
               type="file"
               name="thumbnail"
@@ -112,7 +114,6 @@ const UpdateCourseDetail = () => {
               onChange={handleFileSelected}
             />
           </Form.Group>
-          
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onCloseButton}>

@@ -8,12 +8,12 @@ const UpdateUserDetailModal = () => {
     authState: { user },
     showUpdateProfile,
     setShowUpdateProfile,
-	updateProfile
+    updateProfile,
   } = useContext(AuthContext);
   const [newProfile, setNewProfile] = useState(user);
-  
-  const { fullName, username, role, email , _id } = newProfile;
-  
+
+  const { fullName, username, role, email, _id } = newProfile;
+
   const onChangeUserProfile = (event) => {
     setNewProfile({
       ...newProfile,
@@ -25,32 +25,30 @@ const UpdateUserDetailModal = () => {
   };
 
   const onSubmit = async (e) => {
-  e.preventDefault()
-	await updateProfile(newProfile)
-	setShowUpdateProfile(false);
-  }
-  
+    e.preventDefault();
+    await updateProfile(newProfile);
+    setShowUpdateProfile(false);
+  };
+
   return (
-    <Modal
-      show={showUpdateProfile}
-      animation={false}
-      onHide={onCloseButton}
-    >
+    <Modal show={showUpdateProfile} animation={false} onHide={onCloseButton}>
       <Modal.Header closeButton>
-        <Modal.Title>Update Profile</Modal.Title>
+        <Modal.Title>Cập nhật thông tin cá nhân</Modal.Title>
       </Modal.Header>
       <Form onSubmit={onSubmit}>
         <Modal.Body>
           <Form.Group>
+            <Form.Label>Họ và tên</Form.Label>
             <Form.Control
               type="text"
               name="fullName"
-              placeholder="Full name"
+              placeholder="Họ và tên"
               value={fullName}
               onChange={onChangeUserProfile}
             />
           </Form.Group>
           <Form.Group>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="text"
               name="email"
@@ -60,19 +58,20 @@ const UpdateUserDetailModal = () => {
             />
           </Form.Group>
           <Form.Group>
+            <Form.Label>Tên đăng nhập</Form.Label>
             <Form.Control
               type="text"
               name="username"
-              placeholder="User name"
+              placeholder="Tên đăng nhập"
               value={username}
               onChange={onChangeUserProfile}
             />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary">Cancel</Button>
+          <Button variant="secondary">Thoát</Button>
           <Button variant="primary" type="submit">
-            LearnIt!
+            Chỉnh sửa
           </Button>
         </Modal.Footer>
       </Form>

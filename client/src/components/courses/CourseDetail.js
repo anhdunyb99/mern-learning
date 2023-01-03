@@ -55,7 +55,7 @@ const CourseDetail = () => {
       getNotification(course._id);
     }
   }, []);
-  console.log("notifications", notifications);
+  
   const listQuizz = () => {
     navigate(`/quizz-management/${course._id}`);
   };
@@ -136,9 +136,12 @@ const CourseDetail = () => {
           <Button variant="outlined" onClick={startExam}>
             Bắt đầu bài thi
           </Button>
-          <Button variant="outlined" onClick={listQuizz}>
-            Danh sách câu hỏi
-          </Button>
+
+          {localStorage.role === "TEACHER" && (
+            <Button variant="outlined" onClick={listQuizz}>
+              Danh sách câu hỏi
+            </Button>
+          )}
           <div>
             {course ? (
               <div>

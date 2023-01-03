@@ -34,7 +34,7 @@ const CourseManagement = () => {
     setEditCourseId,
     getCourseById,
     setShowAddCourse,
-    deleteCourse
+    deleteCourse,
   } = useContext(CourseContexts);
   const classes = useStyles();
 
@@ -44,8 +44,8 @@ const CourseManagement = () => {
   };
   const handleDeleteItem = async (id) => {
     const res = await axios.delete(`${apiUrl}/courses/${id}`);
-    
-    await deleteCourse(res)
+
+    await deleteCourse(res);
   };
   useEffect(() => {
     getAllCourse();
@@ -56,7 +56,7 @@ const CourseManagement = () => {
       <UpdateCourseDetail />
       <AddCourseModal />
       <Container>
-        <Container  className="mb-5 mt-5">
+        <Container className="mb-5 mt-5">
           <Row>
             <Col md={12}>
               <Paper className="p-5 m-3 shadow">
@@ -110,14 +110,14 @@ const CourseManagement = () => {
                                 }}
                                 onClick={() => handleEditItem(row._id)}
                               >
-                                Edit
+                                Sửa
                               </Button>
                               <Button
                                 variant="contained"
                                 style={{ fontSize: "10px" }}
                                 onClick={() => handleDeleteItem(row._id)}
                               >
-                                Delete
+                                Xóa
                               </Button>
                             </TableCell>
                           </TableRow>

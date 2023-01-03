@@ -15,6 +15,7 @@ const CourseContextsProvider = ({ children }) => {
     quizzs: [],
     notification: null,
     notifications: [],
+    courseByUser : [],
   });
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -41,6 +42,20 @@ const CourseContextsProvider = ({ children }) => {
         type: "COURSE_LOAD_FAIL",
       });
     }
+  };
+  // get all course by user id
+
+  const getCourseByUser = async (id) => {
+    try {
+      const response = await axios.get(`${apiUrl}/courses/${id}`);
+      console.log("response", response);
+      if (response.data.success) {
+        dispatch({
+          type: "GET_COURSE_BY_USER",
+          payload: response.data.data,
+        });
+      }
+    } catch (error) {}
   };
 
   // add course
@@ -132,7 +147,7 @@ const CourseContextsProvider = ({ children }) => {
   const getNotification = async (courseId) => {
     try {
       const response = await axios.get(`${apiUrl}/notification/${courseId}`);
-      
+
       if (response.data.success) {
         dispatch({
           type: "GET_ALL_NOTIFICATION",
@@ -217,7 +232,8 @@ const CourseContextsProvider = ({ children }) => {
     deleteCourse,
     showAddNotification,
     setShowAddNotification,
-    getNotification
+    getNotification,
+    getCourseByUser
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

@@ -50,24 +50,23 @@ const AddNotificationModal = () => {
       <Form onSubmit={onSubmit}>
         <Modal.Body>
           <Form.Group>
+            <Form.Label>Thông báo</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Title"
+              placeholder="Thông báo"
               name="title"
               required
               aria-describedby="title-help"
               value={title}
               onChange={onChangeNewNotification}
             ></Form.Control>
-            <Form.Text id="title-help" muted>
-              Nội dung thông báo
-            </Form.Text>
           </Form.Group>
+          <Form.Label>Nội dung thông báo</Form.Label>
           <Form.Group>
             <Form.Control
               type="text"
               rows={3}
-              placeholder="Description"
+              placeholder="Nội dung"
               name="description"
               value={description}
               onChange={onChangeNewNotification}

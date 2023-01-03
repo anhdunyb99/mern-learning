@@ -45,7 +45,12 @@ export const courseReducer = (state, action) => {
         ...state,
         quizzs: payload,
       };
-      case "GET_ALL_NOTIFICATION":
+    case "GET_COURSE_BY_USER":
+      return {
+        ...state,
+        courseByUser: payload,
+      };
+    case "GET_ALL_NOTIFICATION":
       return {
         ...state,
         notifications: payload,

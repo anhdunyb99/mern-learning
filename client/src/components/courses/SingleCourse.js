@@ -11,7 +11,6 @@ import Button from "react-bootstrap/esm/Button";
 const SingleCourse = ({ course: { _id, name, description, thumbnail } }) => {
   const {
     findCourse,
-    courseState: { course },
   } = useContext(CourseContexts);
   const navigate = useNavigate();
   const [selected, setSelected] = useState(false);

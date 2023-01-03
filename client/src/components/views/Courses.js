@@ -18,40 +18,47 @@ const Courses = () => {
     showAddCourse,
     setShowAddCourse,
     getAllCourse,
-    courseState: { courses, course },
+    getCourseByUser,
+    courseState: { courses, course, courseByUser },
   } = useContext(CourseContexts);
   useEffect(() => {
     getAllCourse();
+    getCourseByUser(localStorage.id);
   }, []);
 
-  let body = null;
-  body = (
-    <div>
-      <section className="wrapper">
-        <div>
-          <div className="row-cols-4 row-cols-md-12 g-4 mx-auto mt-3 row">
-            {courses.map((course) => (
-              <Col key={course._id}>
-                <SingleCourse course={course} />
-              </Col>
-            ))}
-          </div>
-        </div>
-        <button
-          style={{ float: "right" }}
-          onClick={setShowAddCourse.bind(this, true)}
-        >
-          <i className="bi bi-plus-lg"></i>
-          Thêm khóa học
-        </button>
-      </section>
-    </div>
-  );
   return (
     <div>
       <AddCourseModal />
-
-      {body}
+      {localStorage.role === "TEACHER" && (
+        <div>
+          <section className="wrapper">
+            <div>
+              <div className="row-cols-4 row-cols-md-12 g-4 mx-auto mt-3 row">
+                {courses.map((course) => (
+                  <Col key={course._id}>
+                    <SingleCourse course={course} />
+                  </Col>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
+      {localStorage.role === "STUDENT" && (
+        <div>
+          <section className="wrapper">
+            <div>
+              <div className="row-cols-4 row-cols-md-12 g-4 mx-auto mt-3 row">
+                {courseByUser.map((course) => (
+                  <Col key={course._id}>
+                    <SingleCourse course={course} />
+                  </Col>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 };

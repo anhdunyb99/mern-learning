@@ -191,14 +191,14 @@ const EditQuizzPage = () => {
                                 }}
                                 onClick={() => handleEditItem(row._id)}
                               >
-                                Edit
+                                Sửa
                               </Button>
                               <Button
                                 variant="contained"
                                 style={{ fontSize: "10px" }}
                                 onClick={() => handleDeleteItem(row._id)}
                               >
-                                Delete
+                                Xóa
                               </Button>
                             </TableCell>
                           </TableRow>
