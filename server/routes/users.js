@@ -22,7 +22,14 @@ router.get("/student", verifyToken, async (req, res) => {
     res.json({ success: true, student });
   } catch (error) {}
 });
+// get all teacher
+router.get("/teacher", verifyToken, async (req, res) => {
+  try {
+    const teacher = await User.find({ role: "TEACHER" });
 
+    res.json({ success: true, teacher });
+  } catch (error) {}
+});
 //get student by id
 router.get("/:id", verifyToken, async (req, res) => {
   try {

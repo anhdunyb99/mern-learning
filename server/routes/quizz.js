@@ -5,7 +5,7 @@ const Quizz = require("../models/Quizz");
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  /* console.log("req.body", req.body); */
+  console.log("req.body", req.body);
   const {
     category,
     typeCourse,

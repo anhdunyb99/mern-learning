@@ -10,6 +10,7 @@ const AddNotificationModal = () => {
     showAddNotification,
     setShowAddNotification,
     courseState: { course },
+    addNotification
   } = useContext(CourseContexts);
   const closeDialog = () => {
     setShowAddNotification(false);
@@ -33,6 +34,7 @@ const AddNotificationModal = () => {
       idCourse: course._id,
       idTeacher: localStorage.id,
     });
+    await addNotification(res)
     console.log("res", res);
     setShowAddNotification(false);
   };

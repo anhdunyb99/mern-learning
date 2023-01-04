@@ -18,9 +18,11 @@ const AddCourseModal = () => {
     files: [],
     thumbnails,
     listStudent: [],
+    code : '',
+    idTeacher : localStorage.id
   });
   const [selectedFile, setSelectedFile] = useState(null);
-  const { name, description, files, listStudent, thumbnails, courseDetail } =
+  const { name, description, files, listStudent, thumbnails, courseDetail , code } =
     newCourse;
   const onChangeNewCourse = (e) => {
     setNewCourse({
@@ -36,6 +38,7 @@ const AddCourseModal = () => {
       [e.target.name]: e.target.value,
     });
   };
+  
   const onSubmit = async (e) => {
     e.preventDefault();
     /* const formData = new FormData();
@@ -69,41 +72,52 @@ const AddCourseModal = () => {
       <Form onSubmit={onSubmit}>
         <Modal.Body>
           <Form.Group>
+            <Form.Label>Tên khóa học</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Name"
+              placeholder="Tên khóa học"
               name="name"
               required
               aria-describedby="title-help"
               value={name}
               onChange={onChangeNewCourse}
             ></Form.Control>
-            <Form.Text id="title-help" muted>
-              Description
-            </Form.Text>
           </Form.Group>
           <Form.Group>
+            <Form.Label>Mô tả</Form.Label>
             <Form.Control
               type="text"
               rows={3}
-              placeholder="Description"
+              placeholder="Mô tả"
               name="description"
               value={description}
               onChange={onChangeNewCourse}
             ></Form.Control>
-            <Form.Text id="title-help" muted>
-              Course Detail
-            </Form.Text>
           </Form.Group>
           <Form.Group>
+            <Form.Label>Mã khóa học</Form.Label>
+            <Form.Control
+              type="text"
+              rows={3}
+              placeholder="Mã khóa học"
+              name="code"
+              value={code}
+              onChange={onChangeNewCourse}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Chi tiết</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="CourseDetail"
+              placeholder="Mô tả"
               name="courseDetail"
               value={courseDetail}
               onChange={onChangeNewCourse}
             ></Form.Control>
+            <Form.Text id="title-help" muted>
+              Ảnh mô tả
+            </Form.Text>
           </Form.Group>
           <Form.Group>
             <Form.Control

@@ -185,7 +185,15 @@ const CourseContextsProvider = ({ children }) => {
       });
     } catch (error) {}
   };
-
+  const addNotification = async (res) => {
+    console.log(res);
+    try {
+      dispatch({
+        type: "ADD_NOTIFICATION",
+        payload: res.data.data,
+      });
+    } catch (error) {}
+  };
   const getCourseById = async (courseId) => {
     try {
       console.log("courseId", courseId);
@@ -233,7 +241,8 @@ const CourseContextsProvider = ({ children }) => {
     showAddNotification,
     setShowAddNotification,
     getNotification,
-    getCourseByUser
+    getCourseByUser,
+    addNotification
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

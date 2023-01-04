@@ -37,6 +37,7 @@ const QuizzAddModal = () => {
   console.log("answer1", answer4); */
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log('1');
     let correctAnsArr = [];
     correctAnsArr.splice(0, 0, answer1, answer2, answer3, answer4);
     if (correctAnsArr.includes(correct_answer) && course) {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StudentContexts } from "../contexts/StudentContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { apiUrl } from "../contexts/constants";
@@ -13,6 +13,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import EditUserModal from "../user/EditUserModal";
+import { TablePagination, TableFooter } from "@material-ui/core";
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -30,6 +32,18 @@ const UserManagement = () => {
     setShowEditModal,
     deleteStudent,
   } = useContext(StudentContexts);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [data, setData] = useState([]);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, students.length - page * rowsPerPage);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   useEffect(() => {
     getAllStudent();
   }, []);
@@ -41,9 +55,9 @@ const UserManagement = () => {
 
   const handleDeleteItem = async (id) => {
     await deleteStudent(id);
-    console.log(id);
+    
   };
-  console.log("students", students);
+  
   return (
     <div>
       <EditUserModal />
@@ -78,7 +92,13 @@ const UserManagement = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {students.map((row) => (
+                        {(rowsPerPage > 0
+                          ? students.slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                          : students
+                        ).map((row) => (
                           <TableRow key={row.id}>
                             <TableCell align="center">{row.username}</TableCell>
                             <TableCell align="center">{row.fullName}</TableCell>
@@ -104,7 +124,36 @@ const UserManagement = () => {
                             </TableCell>
                           </TableRow>
                         ))}
+                        {emptyRows > 0 && (
+                          <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
                       </TableBody>
+                      <TableFooter>
+                        <TableRow>
+                          <TablePagination
+                            rowsPerPageOptions={[
+                              5,
+                              7,
+                              10,
+                              25,
+                              { label: "All", value: -1 },
+                            ]}
+                            colSpan={3}
+                            count={students.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            SelectProps={{
+                              inputProps: { "aria-label": "rows per page" },
+                              native: true,
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            ActionsComponent={TablePaginationActions}
+                          />
+                        </TableRow>
+                      </TableFooter>
                     </Table>
                   </TableContainer>
                 </Container>

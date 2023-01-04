@@ -16,6 +16,9 @@ import { CourseContexts } from "../contexts/CourseContexts";
 import UpdateCourseDetail from "../courses/UpdateCourseDetail";
 import ControlPointIcon from "@material-ui/icons/ControlPoint";
 import AddCourseModal from "../courses/AddCourseModal";
+import { TablePagination, TableFooter } from "@material-ui/core";
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
+import { StudentContexts } from "../contexts/StudentContext";
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -26,7 +29,6 @@ const useStyles = makeStyles({
   },
 });
 const CourseManagement = () => {
-  const [idCourse, setIdCourse] = useState("");
   const {
     courseState: { courses },
     setShowUpdateCourseDetail,
@@ -36,6 +38,24 @@ const CourseManagement = () => {
     setShowAddCourse,
     deleteCourse,
   } = useContext(CourseContexts);
+  const {
+    getAllTeacher,
+    studentState: { teachers },
+  } = useContext(StudentContexts);
+  const [idCourse, setIdCourse] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [data, setData] = useState([]);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   const classes = useStyles();
 
   const handleEditItem = async (id) => {
@@ -49,8 +69,18 @@ const CourseManagement = () => {
   };
   useEffect(() => {
     getAllCourse();
+    getAllTeacher();
   }, []);
-
+  const getTeacherName = (id) => {
+    let teacherName = "";
+    for (let i in teachers) {
+      if (id === teachers[i]._id) {
+        teacherName = teachers[i].fullName;
+      }
+    }
+    return teacherName;
+  };
+  console.log("teachers", teachers);
   return (
     <div>
       <UpdateCourseDetail />
@@ -94,13 +124,21 @@ const CourseManagement = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {courses.map((row) => (
+                        {(rowsPerPage > 0
+                          ? courses.slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                          : courses
+                        ).map((row) => (
                           <TableRow key={row.id}>
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">
                               {row.description}
                             </TableCell>
-                            <TableCell align="center"></TableCell>
+                            <TableCell align="center">
+                              {getTeacherName(row.idTeacher)}
+                            </TableCell>
                             <TableCell align="center">
                               <Button
                                 variant="outlined"
@@ -122,7 +160,36 @@ const CourseManagement = () => {
                             </TableCell>
                           </TableRow>
                         ))}
+                        {emptyRows > 0 && (
+                          <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
                       </TableBody>
+                      <TableFooter>
+                        <TableRow>
+                          <TablePagination
+                            rowsPerPageOptions={[
+                              5,
+                              7,
+                              10,
+                              25,
+                              { label: "All", value: -1 },
+                            ]}
+                            colSpan={3}
+                            count={courses.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            SelectProps={{
+                              inputProps: { "aria-label": "rows per page" },
+                              native: true,
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            ActionsComponent={TablePaginationActions}
+                          />
+                        </TableRow>
+                      </TableFooter>
                     </Table>
                   </TableContainer>
                 </Container>

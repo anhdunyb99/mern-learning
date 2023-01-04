@@ -55,9 +55,18 @@ const CourseDetail = () => {
       getNotification(course._id);
     }
   }, []);
-  
+
   const listQuizz = () => {
     navigate(`/quizz-management/${course._id}`);
+  };
+  const formatDate = (data) => {
+    const yyyy = new Date(data).getFullYear();
+
+    let mm = new Date(data).getMonth() + 1; // Months start at 0!
+    let dd = new Date(data).getDate();
+    if (dd < 10) dd = "0" + dd;
+    if (mm < 10) mm = "0" + mm;
+    return dd + "/" + mm + "/" + yyyy;
   };
   return (
     <>
@@ -87,6 +96,15 @@ const CourseDetail = () => {
                   }}
                   className="notification"
                 >
+                  <span
+                    style={{
+                      float: "right",
+                      fontSize: "12px",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {formatDate(e.createdAt)}
+                  </span>
                   <p>{e.description}</p>
                 </li>
               ))}

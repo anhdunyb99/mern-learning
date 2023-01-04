@@ -30,8 +30,8 @@ const CourseSchema = new Schema({
   },
   listStudent: [
     {
-        type: Schema.Types.ObjectId,
-        ref: "users",
+      type: Schema.Types.ObjectId,
+      ref: "users",
     },
   ],
   user: {
@@ -40,6 +40,12 @@ const CourseSchema = new Schema({
     ref: "users",
   },
   courseDetail: {
+    type: String,
+  },
+  idTeacher: {
+    type: String,
+  },
+  code: {
     type: String,
   },
   createdAt: {

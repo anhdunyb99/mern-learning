@@ -29,6 +29,11 @@ export const courseReducer = (state, action) => {
         ...state,
         course: payload,
       };
+    case "ADD_NOTIFICATION":
+      return {
+        ...state,
+        notifications: [...state.notifications, payload],
+      };
     case "UPDATE_COURSE":
       const newCourses = state.courses.map((course) =>
         course._id === payload._id ? payload : course

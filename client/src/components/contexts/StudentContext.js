@@ -9,6 +9,7 @@ const StudentContextProvider = ({ children }) => {
   const [studentState, dispatch] = useReducer(studentReducer, {
     student: null,
     students: [],
+    teachers: [],
   });
   const [editStudentId, setEditStudentId] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
@@ -27,6 +28,19 @@ const StudentContextProvider = ({ children }) => {
         type: "STUDENT_LOAD_FAIL",
       });
     }
+  };
+
+  const getAllTeacher = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/users/teacher`);
+      console.log('response',response);
+      if (response.data.success) {
+        dispatch({
+          type: "TEACHER_LOAD_SUCCESS",
+          payload: response.data.teacher,
+        });
+      }
+    } catch (error) {}
   };
 
   /* const addStudentToCourse = async (courseId,newStudent) => {
@@ -51,16 +65,14 @@ const StudentContextProvider = ({ children }) => {
           payload: response.data.data,
         });
       }
-      return response
+      return response;
     } catch (error) {}
   };
 
-  // delete student 
+  // delete student
   const deleteStudent = async (id) => {
     try {
-      const response = await axios.delete(
-        `${apiUrl}/users/${id}`
-      );
+      const response = await axios.delete(`${apiUrl}/users/${id}`);
       if (response.data.success) {
         dispatch({
           type: "DELETE_STUDENT",
@@ -78,7 +90,8 @@ const StudentContextProvider = ({ children }) => {
     showEditModal,
     setShowEditModal,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    getAllTeacher
     /* addStudentToCourse */
   };
 

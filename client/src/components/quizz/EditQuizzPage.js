@@ -18,6 +18,8 @@ import Form from "react-bootstrap/Form";
 import { CourseContexts } from "../contexts/CourseContexts";
 import ControlPointIcon from "@material-ui/icons/ControlPoint";
 import QuizzAddModal from "./QuizzAddModal";
+import { TablePagination, TableFooter } from "@material-ui/core";
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -33,7 +35,7 @@ const EditQuizzPage = () => {
     updateQuizzsState,
     getAllQuiz,
     deleteQuiz,
-    setShowAddQuizzModal
+    setShowAddQuizzModal,
   } = useContext(CourseContexts);
   const { courseId } = useParams();
   const [question, setQuestion] = useState("");
@@ -46,12 +48,23 @@ const EditQuizzPage = () => {
   const [difficult, setDifficult] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [idEdit, setIdEdit] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [data, setData] = useState([]);
   const classes = useStyles();
-
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, quizzs.length - page * rowsPerPage);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   useEffect(() => {
     getAllQuiz(courseId);
   }, []);
-
+  
   const handleEditItem = async (id) => {
     setShowEditModal(true);
     const res = await axios.get(`${apiUrl}/quizz/find-quizz/${id}`);
@@ -120,10 +133,10 @@ const EditQuizzPage = () => {
   const handleClose = () => {
     setShowEditModal(false);
   };
-  
+
   return (
     <div>
-      <QuizzAddModal/>
+      <QuizzAddModal />
       <Container>
         <Container fluid className="mb-5 mt-5">
           <Row>
@@ -166,7 +179,13 @@ const EditQuizzPage = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {quizzs.map((row) => (
+                        {(rowsPerPage > 0
+                          ? quizzs.slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                          : quizzs
+                        ).map((row) => (
                           <TableRow key={row.id}>
                             <TableCell align="center">{row.question}</TableCell>
                             <TableCell align="center">{row.category}</TableCell>
@@ -203,7 +222,36 @@ const EditQuizzPage = () => {
                             </TableCell>
                           </TableRow>
                         ))}
+                        {emptyRows > 0 && (
+                          <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
                       </TableBody>
+                      <TableFooter>
+                        <TableRow>
+                          <TablePagination
+                            rowsPerPageOptions={[
+                              5,
+                              7,
+                              10,
+                              25,
+                              { label: "All", value: -1 },
+                            ]}
+                            colSpan={3}
+                            count={quizzs.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            SelectProps={{
+                              inputProps: { "aria-label": "rows per page" },
+                              native: true,
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            ActionsComponent={TablePaginationActions}
+                          />
+                        </TableRow>
+                      </TableFooter>
                     </Table>
                   </TableContainer>
                 </Container>

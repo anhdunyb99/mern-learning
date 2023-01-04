@@ -16,9 +16,9 @@ router.get("/", verifyToken, async (req, res) => {
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  const { name, description, files, listStudent, user, courseDetail } =
+  const { name, description, files, listStudent, user, courseDetail , idTeacher , code  } =
     req.body;
-  /* console.log("req.body", req.body); */
+  console.log("req.body", req.body);
   /* let thumbnail =
     "http://localhost:5000/uploads/" + thumbnails.replace("C:\\fakepath\\", ""); */
   //simple vadilation
@@ -33,9 +33,11 @@ router.post("/", verifyToken, async (req, res) => {
       listStudent,
       user,
       courseDetail,
+      idTeacher,
+      code
     });
     await newCourse.save();
-    /* console.log("newCourse", newCourse); */
+    console.log("newCourse", newCourse);
     res.json({
       success: true,
       message: "Create course successfully",
