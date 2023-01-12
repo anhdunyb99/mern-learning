@@ -8,11 +8,12 @@ import { CourseContexts } from "../contexts/CourseContexts";
 import SingleCourse from "../courses/SingleCourse";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/esm/Button";
 import AddCourseModal from "../courses/AddCourseModal";
 import addIcon from "../../assets/plus-circle-fill.svg";
 import Menu from "../layout/Menu";
 import CourseDetail from "../courses/CourseDetail";
+import { Button } from "@material-ui/core";
+import JoinCourseModal from "../courses/JoinCourseModal";
 const Courses = () => {
   const {
     showAddCourse,
@@ -20,6 +21,7 @@ const Courses = () => {
     getAllCourse,
     getCourseByUser,
     courseState: { courses, course, courseByUser },
+    setShowJoinCourse,
   } = useContext(CourseContexts);
   useEffect(() => {
     getAllCourse();
@@ -29,6 +31,7 @@ const Courses = () => {
   return (
     <div>
       <AddCourseModal />
+      <JoinCourseModal/>
       {localStorage.role === "TEACHER" && (
         <div>
           <section className="wrapper">
@@ -47,6 +50,13 @@ const Courses = () => {
       {localStorage.role === "STUDENT" && (
         <div>
           <section className="wrapper">
+            <Button
+              variant="outlined"
+              onClick={setShowJoinCourse.bind(this, true)}
+              className="mr-2"
+            >
+              Nhập mã khóa học
+            </Button>
             <div>
               <div className="row-cols-4 row-cols-md-12 g-4 mx-auto mt-3 row">
                 {courseByUser.map((course) => (

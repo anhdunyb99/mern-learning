@@ -16,8 +16,16 @@ router.get("/", verifyToken, async (req, res) => {
 
 // create course
 router.post("/", verifyToken, async (req, res) => {
-  const { name, description, files, listStudent, user, courseDetail , idTeacher , code  } =
-    req.body;
+  const {
+    name,
+    description,
+    files,
+    listStudent,
+    user,
+    courseDetail,
+    idTeacher,
+    code,
+  } = req.body;
   console.log("req.body", req.body);
   /* let thumbnail =
     "http://localhost:5000/uploads/" + thumbnails.replace("C:\\fakepath\\", ""); */
@@ -34,7 +42,7 @@ router.post("/", verifyToken, async (req, res) => {
       user,
       courseDetail,
       idTeacher,
-      code
+      code,
     });
     await newCourse.save();
     console.log("newCourse", newCourse);
@@ -74,6 +82,30 @@ router.get("/get-course/:id", verifyToken, async (req, res) => {
     /* console.log(req.params.id); */
     const course = await Course.findById(req.params.id);
     res.json({ success: true, data: course });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+// join course
+router.post("/join-course/:id", verifyToken, async (req, res) => {
+  try {
+    const course = await Course.findOne({ code: req.body.code });
+    if (course) {
+      await Course.updateOne(
+        { _id: course._id },
+        {
+          $push: {
+            listStudent: req.params.id,
+          },
+        }
+      );
+    } else {
+      console.log("Code khong dung");
+    }
+    const courseUpdate = await Course.find({ listStudent: req.params.id });
+
+    res.json({ success: true, data: courseUpdate });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });

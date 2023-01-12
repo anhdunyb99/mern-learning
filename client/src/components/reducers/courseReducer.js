@@ -55,6 +55,11 @@ export const courseReducer = (state, action) => {
         ...state,
         courseByUser: payload,
       };
+    case "JOIN_COURSE_BY_CODE":
+      return {
+        ...state,
+        courseByUser: payload,
+      };
     case "GET_ALL_NOTIFICATION":
       return {
         ...state,

@@ -15,7 +15,7 @@ const CourseContextsProvider = ({ children }) => {
     quizzs: [],
     notification: null,
     notifications: [],
-    courseByUser : [],
+    courseByUser: [],
   });
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -25,8 +25,9 @@ const CourseContextsProvider = ({ children }) => {
   const [quizzResult, setQuizzResult] = useState(null);
   const [editCourseId, setEditCourseId] = useState("");
   const [showAddNotification, setShowAddNotification] = useState(false);
+  const [showJoinCourse, setShowJoinCourse] = useState(false);
   // get all course
-
+  
   const getAllCourse = async () => {
     try {
       const response = await axios.get(`${apiUrl}/courses`);
@@ -48,7 +49,7 @@ const CourseContextsProvider = ({ children }) => {
   const getCourseByUser = async (id) => {
     try {
       const response = await axios.get(`${apiUrl}/courses/${id}`);
-      console.log("response", response);
+      
       if (response.data.success) {
         dispatch({
           type: "GET_COURSE_BY_USER",
@@ -102,7 +103,22 @@ const CourseContextsProvider = ({ children }) => {
       }
     } catch (error) {}
   };
-
+  // join course by code
+  const joinCourse = async (idUser, code) => {
+    
+    try {
+      const response = await axios.post(
+        `${apiUrl}/courses/join-course/${idUser}`,
+        { code: code }
+      );
+      if (response.data.success) {
+        dispatch({
+          type: "JOIN_COURSE_BY_CODE",
+          payload: response.data.data,
+        });
+      }
+    } catch (error) {}
+  };
   // get quizz result
   const getQuizzResultById = async (quizzId) => {
     try {
@@ -242,7 +258,10 @@ const CourseContextsProvider = ({ children }) => {
     setShowAddNotification,
     getNotification,
     getCourseByUser,
-    addNotification
+    addNotification,
+    showJoinCourse,
+    setShowJoinCourse,
+    joinCourse,
   };
   return (
     <CourseContexts.Provider value={courseContextData}>
