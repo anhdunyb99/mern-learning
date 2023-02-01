@@ -31,7 +31,8 @@ const DocumentManagement = () => {
     courseState: { course },
     getCourseById,
     setDocumentId,
-    setShowDocEdit
+    setShowDocEdit,
+    deleteFile
   } = useContext(CourseContexts);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -56,7 +57,7 @@ const DocumentManagement = () => {
     setShowDocEdit(true)
   };
   const handleDeleteItem = async (id) => {
-    setDocumentId(id);
+    deleteFile(courseId,id)
   };
   return (
     <div>

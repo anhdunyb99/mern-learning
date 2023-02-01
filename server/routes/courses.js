@@ -89,7 +89,7 @@ router.get("/get-course/:id", verifyToken, async (req, res) => {
 //get document by id
 router.get("/get-document/:id", verifyToken, async (req, res) => {
   try {
-    console.log("req.query", req.query.idCourse);
+    /* console.log("req.query", req.query.idCourse); */
     /* const data = await Course.findById(req.params.id); */
     /* const data = await Course.findById("63749ab637d2e5426639b915"); */
     /* const data = await Course.findOne({
@@ -102,7 +102,7 @@ router.get("/get-document/:id", verifyToken, async (req, res) => {
     );
 
     let data = course.files[0];
-    console.log("data", data);
+    /* console.log("data", data); */
     /* let file = data.files;
     console.log("file", file); */
     res.json({ success: true, data: data });
@@ -114,8 +114,8 @@ router.get("/get-document/:id", verifyToken, async (req, res) => {
 // edit file of course
 router.put("/edit-document/:id", verifyToken, async (req, res) => {
   try {
-    console.log(req.params.id);
-    console.log(req.body);
+    /* console.log(req.params.id);
+    console.log(req.body); */
     const { name, contenType, url, description } = req.body;
     let updateFile = {
       name,
@@ -123,14 +123,39 @@ router.put("/edit-document/:id", verifyToken, async (req, res) => {
       url,
       description,
     };
-    console.log("updateFile", updateFile);
+    /* console.log("updateFile", updateFile); */
     const data = await Course.findOneAndUpdate(
       { "files._id": req.body._id },
       { $set: { "files.$": updateFile } }
     );
     const course = await Course.findById(req.params.id);
+    /* console.log("course", course); */
+    res.json({ success: true, data: course });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+//delete file
+// edit file of course
+router.delete("/delete-document/:id", verifyToken, async (req, res) => {
+  try {
+    console.log(req.params.id);
+    console.log(req.query);
+    const course = await Course.updateOne(
+      { _id: req.query.idCourse },
+      {
+        $pull: {
+          files: {
+            _id: req.params.id,
+          },
+        },
+      }
+    );
     console.log("course", course);
-    res.json({ success: true , data : course});
+    const data = await Course.findById(req.query.idCourse);
+    console.log("data", data);
+    res.json({ success: true, data: data });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });

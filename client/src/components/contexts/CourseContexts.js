@@ -216,7 +216,7 @@ const CourseContextsProvider = ({ children }) => {
       const response = await axios.get(
         `${apiUrl}/courses/get-course/${courseId}`
       );
-      console.log(response);
+      /* console.log(response); */
 
       if (response.data.success) {
         dispatch({
@@ -252,6 +252,24 @@ const CourseContextsProvider = ({ children }) => {
         });
       }
       return response;
+    } catch (error) {}
+  };
+  // delete file
+  const deleteFile = async (courseId, fileId) => {
+    try {
+      const response = await axios.delete(
+        `${apiUrl}/courses/delete-document/${fileId}`,
+        {
+          params: {
+            idCourse: courseId,
+          },
+        }
+      );
+      console.log(response);
+      dispatch({
+        type: "DELETE_FILE",
+        payload: response.data.data,
+      });
     } catch (error) {}
   };
   const courseContextData = {
@@ -294,6 +312,7 @@ const CourseContextsProvider = ({ children }) => {
     showDocEdit,
     setShowDocEdit,
     updateFiles,
+    deleteFile,
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

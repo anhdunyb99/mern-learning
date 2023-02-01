@@ -59,6 +59,16 @@ export const courseReducer = (state, action) => {
         courses: newFiles,
         course: payload,
       };
+    case "DELETE_FILE":
+      const deleteFiles = state.courses.map((course) =>
+        course._id === payload._id ? payload : course
+      );
+      console.log("newFiles", newFiles);
+      return {
+        ...state,
+        courses: deleteFiles,
+        course: payload,
+      };
     case "GET_ALL_QUIZ":
       return {
         ...state,
@@ -104,6 +114,7 @@ export const courseReducer = (state, action) => {
         ...state,
         courses: state.courses.filter((course) => course._id !== payload._id),
       };
+
     default:
       return state;
   }

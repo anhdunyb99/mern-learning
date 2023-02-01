@@ -11,7 +11,7 @@ const EditDocument = () => {
     useContext(CourseContexts);
   const [newFile, setNewFile] = useState(null);
   const { courseId } = useParams();
-  console.log("courseId", courseId);
+  /* console.log("courseId", courseId); */
   let body = {
     id: courseId,
   };
@@ -25,7 +25,7 @@ const EditDocument = () => {
           },
         }
       );
-      console.log("res", res);
+      /* console.log("res", res); */
       setNewFile(res.data.data);
     }
   };
@@ -49,7 +49,7 @@ const EditDocument = () => {
       [event.target.name]: event.target.value,
     });
   };
-  console.log("newFile", newFile);
+  /* console.log("newFile", newFile); */
 
   return (
     <Modal size="lg" show={showDocEdit} onHide={onCloseButton}>
