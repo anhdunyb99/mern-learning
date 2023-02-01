@@ -49,6 +49,9 @@ const CourseDetail = () => {
   const startExam = () => {
     navigate(`/quizz/${course._id}`);
   };
+  const documentManagement = () => {
+    navigate(`/document/${course._id}`);
+  };
   useEffect(() => {
     getAllStudent();
     if (course) {
@@ -131,12 +134,6 @@ const CourseDetail = () => {
                 </Dropdown.Item>
                 <Dropdown.Item
                   href=""
-                  onClick={setShowUpdateCourseDetail.bind(this, true)}
-                >
-                  Chỉnh sửa thông tin khóa học
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href=""
                   onClick={setShowAddQuizzModal.bind(this, true)}
                 >
                   Thêm câu hỏi
@@ -146,6 +143,9 @@ const CourseDetail = () => {
                   onClick={setShowAddNotification.bind(this, true)}
                 >
                   Thêm thông báo
+                </Dropdown.Item>
+                <Dropdown.Item href="" onClick={documentManagement}>
+                  Quản lý tài liệu
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

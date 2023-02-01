@@ -19,6 +19,11 @@ export const courseReducer = (state, action) => {
         ...state,
         course: payload,
       };
+    case "GET_COURSE_BY_ID":
+      return {
+        ...state,
+        course: payload,
+      };
     case "ADD_COURSE":
       return {
         ...state,
@@ -44,7 +49,16 @@ export const courseReducer = (state, action) => {
         courses: newCourses,
         course: payload,
       };
-
+    case "UPDATE_FILE":
+      const newFiles = state.courses.map((course) =>
+        course._id === payload._id ? payload : course
+      );
+      console.log("newFiles", newFiles);
+      return {
+        ...state,
+        courses: newFiles,
+        course: payload,
+      };
     case "GET_ALL_QUIZ":
       return {
         ...state,

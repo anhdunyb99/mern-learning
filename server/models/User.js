@@ -24,6 +24,10 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
   },
+  phoneNumber: {
+    type: String,
+    default: "0948785893",
+  },
   /* courses:[
         {
             type:mongoose.Schema.Types.ObjectId,

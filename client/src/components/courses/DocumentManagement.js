@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CourseContexts } from "../contexts/CourseContexts";
+import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import { Avatar, Paper, Typography } from "@material-ui/core";
 import { Col, Row } from "react-bootstrap";
@@ -8,17 +11,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles } from "@material-ui/core/styles";
-import { apiUrl } from "../contexts/constants";
-import axios from "axios";
 import { Button } from "@material-ui/core";
-import { CourseContexts } from "../contexts/CourseContexts";
-import UpdateCourseDetail from "../courses/UpdateCourseDetail";
-import ControlPointIcon from "@material-ui/icons/ControlPoint";
-import AddCourseModal from "../courses/AddCourseModal";
 import { TablePagination, TableFooter } from "@material-ui/core";
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
-import { StudentContexts } from "../contexts/StudentContext";
+import ControlPointIcon from "@material-ui/icons/ControlPoint";
+import EditDocument from "./EditDocument";
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -28,30 +25,26 @@ const useStyles = makeStyles({
     paddingTop: "30px",
   },
 });
-const CourseManagement = () => {
+const DocumentManagement = () => {
+  const { courseId } = useParams();
   const {
-    courseState: { courses },
-    setShowUpdateCourseDetail,
-    getAllCourse,
-    setEditCourseId,
+    courseState: { course },
     getCourseById,
-    setShowAddCourse,
-    deleteCourse,
+    setDocumentId,
+    setShowDocEdit
   } = useContext(CourseContexts);
-  const {
-    getAllTeacher,
-    studentState: { teachers },
-  } = useContext(StudentContexts);
-  const [idCourse, setIdCourse] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    getCourseById(courseId);
+  }, []);
+
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
+    rowsPerPage -
+    Math.min(rowsPerPage, course.files.length - page * rowsPerPage);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -59,50 +52,25 @@ const CourseManagement = () => {
   const classes = useStyles();
 
   const handleEditItem = async (id) => {
-    await setEditCourseId(id);
-    await setShowUpdateCourseDetail(true);
+    setDocumentId(id);
+    setShowDocEdit(true)
   };
   const handleDeleteItem = async (id) => {
-    const res = await axios.delete(`${apiUrl}/courses/${id}`);
-
-    await deleteCourse(res);
+    setDocumentId(id);
   };
-  useEffect(() => {
-    getAllCourse();
-    getAllTeacher();
-  }, []);
-  const getTeacherName = (id) => {
-    let teacherName = "";
-    for (let i in teachers) {
-      if (id === teachers[i]._id) {
-        teacherName = teachers[i].fullName;
-      }
-    }
-    return teacherName;
-  };
-  
   return (
     <div>
-      <UpdateCourseDetail />
-      <AddCourseModal />
+      <EditDocument />
       <Container>
         <Container className="mb-5 mt-5">
           <Row>
             <Col md={12}>
               <Paper className="p-5 m-3 shadow">
-                <Button
-                  variant="outlined"
-                  startIcon={<ControlPointIcon />}
-                  onClick={setShowAddCourse.bind(this, true)}
-                  className="mr-2"
-                >
-                  Thêm khóa học
-                </Button>
                 <Typography
                   className="text-center font-weight-bold pb-4"
                   variant="h5"
                 >
-                  Danh sách khóa học
+                  Danh sách tài liệu
                 </Typography>
                 <Container className={classes.root}>
                   <TableContainer component={Paper}>
@@ -110,13 +78,10 @@ const CourseManagement = () => {
                       <TableHead>
                         <TableRow className="bg-dark ">
                           <TableCell align="center" className="text-light">
-                            Khóa học
+                            Tên tài liệu
                           </TableCell>
                           <TableCell align="center" className="text-light">
                             Mô tả
-                          </TableCell>
-                          <TableCell align="center" className="text-light">
-                            Giáo viên
                           </TableCell>
                           <TableCell align="center" className="text-light">
                             Hành động
@@ -125,19 +90,16 @@ const CourseManagement = () => {
                       </TableHead>
                       <TableBody>
                         {(rowsPerPage > 0
-                          ? courses.slice(
+                          ? course.files.slice(
                               page * rowsPerPage,
                               page * rowsPerPage + rowsPerPage
                             )
-                          : courses
+                          : course.files
                         ).map((row) => (
                           <TableRow key={row.id}>
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">
                               {row.description}
-                            </TableCell>
-                            <TableCell align="center">
-                              {getTeacherName(row.idTeacher)}
                             </TableCell>
                             <TableCell align="center">
                               <Button
@@ -177,7 +139,7 @@ const CourseManagement = () => {
                               { label: "All", value: -1 },
                             ]}
                             colSpan={3}
-                            count={courses.length}
+                            count={course.files.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             SelectProps={{
@@ -202,4 +164,4 @@ const CourseManagement = () => {
   );
 };
 
-export default CourseManagement;
+export default DocumentManagement;

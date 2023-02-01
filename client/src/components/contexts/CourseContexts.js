@@ -26,8 +26,10 @@ const CourseContextsProvider = ({ children }) => {
   const [editCourseId, setEditCourseId] = useState("");
   const [showAddNotification, setShowAddNotification] = useState(false);
   const [showJoinCourse, setShowJoinCourse] = useState(false);
+  const [documentId, setDocumentId] = useState("");
+  const [showDocEdit, setShowDocEdit] = useState(false);
   // get all course
-  
+
   const getAllCourse = async () => {
     try {
       const response = await axios.get(`${apiUrl}/courses`);
@@ -49,7 +51,7 @@ const CourseContextsProvider = ({ children }) => {
   const getCourseByUser = async (id) => {
     try {
       const response = await axios.get(`${apiUrl}/courses/${id}`);
-      
+
       if (response.data.success) {
         dispatch({
           type: "GET_COURSE_BY_USER",
@@ -105,7 +107,6 @@ const CourseContextsProvider = ({ children }) => {
   };
   // join course by code
   const joinCourse = async (idUser, code) => {
-    
     try {
       const response = await axios.post(
         `${apiUrl}/courses/join-course/${idUser}`,
@@ -212,8 +213,17 @@ const CourseContextsProvider = ({ children }) => {
   };
   const getCourseById = async (courseId) => {
     try {
-      console.log("courseId", courseId);
-      /* const response = await axios.get(`${apiUrl}/courses/get-by-id/${courseId}`); */
+      const response = await axios.get(
+        `${apiUrl}/courses/get-course/${courseId}`
+      );
+      console.log(response);
+
+      if (response.data.success) {
+        dispatch({
+          type: "GET_COURSE_BY_ID",
+          payload: response.data.data,
+        });
+      }
     } catch (error) {}
   };
 
@@ -225,6 +235,23 @@ const CourseContextsProvider = ({ children }) => {
         type: "DELETE_COURSE",
         payload: res.data.course,
       });
+    } catch (error) {}
+  };
+  // update file
+  const updateFiles = async (updatedFile, id) => {
+    try {
+      const response = await axios.put(
+        `${apiUrl}/courses/edit-document/${id}`,
+        updatedFile
+      );
+      console.log("response", response);
+      if (response.data.success) {
+        dispatch({
+          type: "UPDATE_FILE",
+          payload: response.data.data,
+        });
+      }
+      return response;
     } catch (error) {}
   };
   const courseContextData = {
@@ -262,6 +289,11 @@ const CourseContextsProvider = ({ children }) => {
     showJoinCourse,
     setShowJoinCourse,
     joinCourse,
+    documentId,
+    setDocumentId,
+    showDocEdit,
+    setShowDocEdit,
+    updateFiles,
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

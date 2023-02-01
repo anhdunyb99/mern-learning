@@ -22,6 +22,10 @@ const CourseSchema = new Schema({
       url: {
         type: String,
       },
+      description: {
+        type: String,
+        default: "description",
+      },
     },
   ],
   thumbnail: {

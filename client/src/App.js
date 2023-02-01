@@ -29,6 +29,7 @@ import TestReview from "./components/quizz/TestReview";
 import EditQuizzPage from "./components/quizz/EditQuizzPage";
 import CourseManagement from "./components/views/CourseManagement";
 import UserManagement from "./components/views/UserManagement";
+import DocumentManagement from "./components/courses/DocumentManagement";
 function App() {
   return (
     <AuthContextProvider>
@@ -102,6 +103,14 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <QuizzPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/document/:courseId"
+                    element={
+                      <ProtectedRoute>
+                        <DocumentManagement />
                       </ProtectedRoute>
                     }
                   />

@@ -79,9 +79,58 @@ router.delete("/:id", verifyToken, async (req, res) => {
 // get course by id
 router.get("/get-course/:id", verifyToken, async (req, res) => {
   try {
-    /* console.log(req.params.id); */
     const course = await Course.findById(req.params.id);
     res.json({ success: true, data: course });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+//get document by id
+router.get("/get-document/:id", verifyToken, async (req, res) => {
+  try {
+    console.log("req.query", req.query.idCourse);
+    /* const data = await Course.findById(req.params.id); */
+    /* const data = await Course.findById("63749ab637d2e5426639b915"); */
+    /* const data = await Course.findOne({
+      files: { $elemMatch: { _id: req.params.id } },
+    }); */
+    const course = await Course.findOne(
+      { _id: req.query.idCourse },
+      { files: { $elemMatch: { _id: req.params.id } } },
+      { "files.$": 1 }
+    );
+
+    let data = course.files[0];
+    console.log("data", data);
+    /* let file = data.files;
+    console.log("file", file); */
+    res.json({ success: true, data: data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+// edit file of course
+router.put("/edit-document/:id", verifyToken, async (req, res) => {
+  try {
+    console.log(req.params.id);
+    console.log(req.body);
+    const { name, contenType, url, description } = req.body;
+    let updateFile = {
+      name,
+      contenType,
+      url,
+      description,
+    };
+    console.log("updateFile", updateFile);
+    const data = await Course.findOneAndUpdate(
+      { "files._id": req.body._id },
+      { $set: { "files.$": updateFile } }
+    );
+    const course = await Course.findById(req.params.id);
+    console.log("course", course);
+    res.json({ success: true , data : course});
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
