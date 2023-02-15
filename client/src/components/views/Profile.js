@@ -11,7 +11,7 @@ import { Col, Row } from "react-bootstrap";
 const Profile = () => {
   const {
     authState: {
-      user: { fullName, email, username, role },
+      user: { fullName, email, username, role, phoneNumber },
     },
     showUpdateProfile,
     setShowUpdateProfile,
@@ -19,6 +19,7 @@ const Profile = () => {
   const updateUserProfile = () => {
     setShowUpdateProfile(true);
   };
+  
   return (
     <>
       <Container>
@@ -60,6 +61,16 @@ const Profile = () => {
                           className="form-control"
                           placeholder="Email"
                           value={email}
+                          readOnly
+                        />
+                      </div>
+                      <div className="col-md-12">
+                        <label className="labels">SĐT</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="SĐT"
+                          value={phoneNumber}
                           readOnly
                         />
                       </div>

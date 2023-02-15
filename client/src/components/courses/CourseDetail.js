@@ -132,12 +132,7 @@ const CourseDetail = () => {
                 >
                   Thêm học sinh
                 </Dropdown.Item>
-                <Dropdown.Item
-                  href=""
-                  onClick={setShowAddQuizzModal.bind(this, true)}
-                >
-                  Thêm câu hỏi
-                </Dropdown.Item>
+                
                 <Dropdown.Item
                   href=""
                   onClick={setShowAddNotification.bind(this, true)}

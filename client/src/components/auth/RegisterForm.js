@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContexts";
 import { useContext, useState } from "react";
 import AlertMessage from "../layout/AlertMessage";
+import loginImg from "../../assets/social-media-marketing.png";
 import "./Style.css";
 const RegisterForm = () => {
   const { registerUser } = useContext(AuthContext);
@@ -137,6 +138,9 @@ const RegisterForm = () => {
             </form>
           </div>
         </div>
+        <div className="login-right">
+        <img src={loginImg}></img>
+      </div>
       </div>
     </div>
   );

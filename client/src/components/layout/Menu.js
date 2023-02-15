@@ -26,7 +26,7 @@ const Menu = () => {
                 src="https://thumbs.dreamstime.com/b/e-learning-icon-trendy-logo-concept-white-backgro-background-education-collection-suitable-use-web-apps-mobile-131175980.jpg"
                 alt=""
               />
-              <h4>Elearning</h4>
+              <h4>Learn With Me</h4>
             </Link>
           </div>
 
@@ -65,7 +65,7 @@ const Menu = () => {
                 {localStorage.role === "TEACHER" && (
                   <li>
                     <Link onClick={toggleClose} to="/user-management">
-                      Quản lý học sinh
+                      Quản lý người dùng
                     </Link>
                   </li>
                 )}

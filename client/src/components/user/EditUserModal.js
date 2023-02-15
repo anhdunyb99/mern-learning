@@ -11,7 +11,7 @@ const EditUserModal = () => {
     showEditModal,
     editStudentId,
     setShowEditModal,
-    updateStudent
+    updateStudent,
   } = useContext(StudentContexts);
   const [newStudentDetail, setNewStudentDetail] = useState(null);
 
@@ -27,21 +27,17 @@ const EditUserModal = () => {
     getData();
   }, [editStudentId]);
   if (newStudentDetail) {
-    var { username, password, fullName, email } = newStudentDetail;
+    var { username, password, fullName, email, phoneNumber, role } =
+      newStudentDetail;
   }
   const onCloseButton = () => {
     setShowEditModal(false);
   };
-
+  console.log("newStudentDetail", newStudentDetail);
   const onSubmit = async (e) => {
     e.preventDefault();
     const res = await updateStudent(newStudentDetail);
-    if (res) {
-      setShowEditModal(false);
-    } else {
-      alert("Username đã tồn tại");
-    }
-    
+    setShowEditModal(false);
   };
   const onStudentDetail = (event) => {
     setNewStudentDetail({
@@ -49,25 +45,15 @@ const EditUserModal = () => {
       [event.target.name]: event.target.value,
     });
   };
-  
+
   return (
     <Modal size="lg" show={showEditModal} onHide={onCloseButton}>
       <Modal.Header closeButton>
-        <Modal.Title>Thay đổi thông tin học sinh</Modal.Title>
+        <Modal.Title>Thay đổi thông tin người dùng</Modal.Title>
       </Modal.Header>
 
       <Form onSubmit={onSubmit}>
         <Modal.Body>
-          <Form.Group>
-            <Form.Label>Tài khoản</Form.Label>
-            <Form.Control
-              type="text"
-              name="username"
-              placeholder="Tên tài khoản"
-              value={username}
-              onChange={onStudentDetail}
-            />
-          </Form.Group>
           <Form.Group>
             <Form.Label>Tên học sinh</Form.Label>
             <Form.Control
@@ -86,6 +72,27 @@ const EditUserModal = () => {
               placeholder="Email"
               value={email}
               onChange={onStudentDetail}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>SĐT</Form.Label>
+            <Form.Control
+              type="text"
+              name="phoneNumber"
+              placeholder="SĐT"
+              value={phoneNumber}
+              onChange={onStudentDetail}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Chức vụ</Form.Label>
+            <Form.Control
+              type="text"
+              name="role"
+              placeholder="Chức vụ"
+              value={role}
+              onChange={onStudentDetail}
+              readOnly
             />
           </Form.Group>
         </Modal.Body>

@@ -97,8 +97,8 @@ const LoginForm = () => {
     <div className="container">
       <div className="login-left">
         <div className="login-header">
-          <h1>Learnit</h1>
-          <h4>keep track what you are learning</h4>
+          <h1>Learn With Me</h1>
+          <h4>Keep track what you are learning</h4>
         </div>
         <form className="login-form" onSubmit={login}>
           <div className="login-form-content">

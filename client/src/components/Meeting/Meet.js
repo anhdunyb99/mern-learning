@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Notifications from "./Notifications";
 import Options from "./Options";
-import VideoPlayer from "./VideoPlayer";
 import { Typography, AppBar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -39,10 +38,7 @@ const Meet = () => {
           Video Chat
         </Typography>
       </AppBar>
-      <VideoPlayer />
-      <Options>
-        <Notifications />
-      </Options>
+      <Options/>
     </div>
   );
 };

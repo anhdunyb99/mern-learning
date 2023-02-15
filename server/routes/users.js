@@ -39,20 +39,17 @@ router.get("/:id", verifyToken, async (req, res) => {
 });
 //update student infomation
 router.put("/:id", verifyToken, async (req, res) => {
-  const { username, password, email, fullName, role } = req.body;
+  const { username, password, email, fullName, role , phoneNumber } = req.body;
+  console.log('req.body',req.body);
   try {
-    const checkName = await User.findOne({username})
-    if(checkName){
-      return res
-        .status(400)
-        .json({ success: false, message: "Username has already exist"});
-    }
+    
     let updateStudent = {
       username,
       password,
       email,
       fullName,
       role,
+      phoneNumber
     };
     const condition = {
       _id: req.params.id,

@@ -55,9 +55,8 @@ const UserManagement = () => {
 
   const handleDeleteItem = async (id) => {
     await deleteStudent(id);
-    
   };
-  
+
   return (
     <div>
       <EditUserModal />
@@ -70,7 +69,7 @@ const UserManagement = () => {
                   className="text-center font-weight-bold pb-4"
                   variant="h5"
                 >
-                  Danh sách học sinh
+                  Danh sách người dùng
                 </Typography>
                 <Container className={classes.root}>
                   <TableContainer component={Paper}>
@@ -85,6 +84,12 @@ const UserManagement = () => {
                           </TableCell>
                           <TableCell align="center" className="text-light">
                             Email
+                          </TableCell>
+                          <TableCell align="center" className="text-light">
+                            SĐT
+                          </TableCell>
+                          <TableCell align="center" className="text-light">
+                            Chức vụ
                           </TableCell>
                           <TableCell align="center" className="text-light">
                             Hành động
@@ -103,6 +108,10 @@ const UserManagement = () => {
                             <TableCell align="center">{row.username}</TableCell>
                             <TableCell align="center">{row.fullName}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
+                            <TableCell align="center">
+                              {row.phoneNumber}
+                            </TableCell>
+                            <TableCell align="center">{row.role}</TableCell>
                             <TableCell align="center">
                               <Button
                                 variant="outlined"
