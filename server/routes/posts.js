@@ -42,7 +42,8 @@ router.post("/uploadFile/:id", async (req, res, next) => {
           }
         );
       }
-      res.send("Upload success!");
+      const course = await Course.findOne({ _id: CourseId });
+      res.send(course);
     }
   });
 });

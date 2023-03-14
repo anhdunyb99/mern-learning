@@ -53,17 +53,27 @@ export const courseReducer = (state, action) => {
       const newFiles = state.courses.map((course) =>
         course._id === payload._id ? payload : course
       );
-      console.log("newFiles", newFiles);
+      
       return {
         ...state,
         courses: newFiles,
+        course: payload,
+      };
+    case "UPLOAD_FILE_SUCCESS":
+      const newUploadFile = state.courses.map((course) =>
+        course._id === payload._id ? payload : course
+      );
+      
+      return {
+        ...state,
+        courses: newUploadFile,
         course: payload,
       };
     case "DELETE_FILE":
       const deleteFiles = state.courses.map((course) =>
         course._id === payload._id ? payload : course
       );
-      console.log("newFiles", newFiles);
+      
       return {
         ...state,
         courses: deleteFiles,

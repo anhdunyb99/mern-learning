@@ -237,6 +237,15 @@ const CourseContextsProvider = ({ children }) => {
       });
     } catch (error) {}
   };
+  const uploadFileSuccess = async (res) => {
+    try {
+      
+      dispatch({
+        type: "UPLOAD_FILE_SUCCESS",
+        payload: res.data
+      });
+    } catch (error) {}
+  };
   // update file
   const updateFiles = async (updatedFile, id) => {
     try {
@@ -313,6 +322,7 @@ const CourseContextsProvider = ({ children }) => {
     setShowDocEdit,
     updateFiles,
     deleteFile,
+    uploadFileSuccess
   };
   return (
     <CourseContexts.Provider value={courseContextData}>

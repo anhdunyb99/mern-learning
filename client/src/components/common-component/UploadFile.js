@@ -11,6 +11,7 @@ const UploadFile = () => {
     courseState: { course },
     showUploadModal,
     setShowUploadModal,
+    uploadFileSuccess,
   } = useContext(CourseContexts);
   const [selectedFile, setSelectedFile] = useState(null);
   const closeDialog = () => {
@@ -25,11 +26,19 @@ const UploadFile = () => {
     const formData = new FormData();
     formData.append("myfile", selectedFile);
     //await uploadFile(formData);
-    await axios.post(`${apiUrl}/posts/uploadFile/${course._id}`, formData, {
-      headers: {
-        "Content-Type": "multipart/formData",
-      },
-    });
+    const res = await axios.post(
+      `${apiUrl}/posts/uploadFile/${course._id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/formData",
+        },
+      }
+    );
+    console.log("res", res);
+    if (res.status == 200) {
+      uploadFileSuccess(res);
+    }
     setShowUploadModal(false);
   };
   const handleGetFile = async (e) => {
